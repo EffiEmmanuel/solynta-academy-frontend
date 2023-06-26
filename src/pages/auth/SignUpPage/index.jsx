@@ -36,7 +36,7 @@ function SignUpPage() {
   const scrollTop = useRef(null);
 
   return (
-    <div className="py-10 lg:px-20 px-10">
+    <div className="py-10 lg:px-20 px-10 bg-[#F4F6FA]">
       <div className="mx-auto text-center flex flex-col items-center">
         {/* Logo */}
         <img src={solyntaLogo} alt="Solynta Academy" className="w-[80px]" />
