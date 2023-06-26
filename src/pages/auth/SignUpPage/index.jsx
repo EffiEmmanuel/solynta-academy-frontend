@@ -6,12 +6,17 @@ import { PiStudent } from "react-icons/pi";
 import { RiParentFill } from "react-icons/ri";
 import { Link } from "react-router-dom";
 import TeacherStepTwoForm from "../../../forms/SignUpForms/Teacher/TeacherStepTwoForm";
+import TeacherStepThreeForm from "../../../forms/SignUpForms/Teacher/TeacherStepThreeForm";
+import StudentStepTwoForm from "../../../forms/SignUpForms/Student/StudentStepTwoForm";
+import StudentStepThreeForm from "../../../forms/SignUpForms/Student/StudentStepThreeForm";
+import ParentStepTwoForm from "../../../forms/SignUpForms/Parent/ParentStepTwoForm";
 
 function SignUpPage() {
   const stepsAndPages = [{ 1: {} }];
 
   const [isStepOne, setIsStepOne] = useState(true);
   const [isStepTwo, setIsStepTwo] = useState(false);
+  const [isParentStepTwo, setIsParentStepTwo] = useState(false);
   const [isStepThree, setIsStepThree] = useState(false);
 
   // Progress states
@@ -43,9 +48,8 @@ function SignUpPage() {
 
         {/* Subtitle */}
         <p className="mt-4 text-sm lg:max-w-xl">
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit. In efficitur
-          ante non sapien pulvinar porttitor. Nam in hendrerit sapien. Nam sem
-          erat, vulputate et .{" "}
+          Welcome to our platform, where the journey of educational empowerment
+          begins. Join us now and unlock a world of knowledge and growth!
         </p>
       </div>
 
@@ -65,7 +69,11 @@ function SignUpPage() {
           >
             1
           </h2>
-          <div className="h-[0.5px] w-full bg-gray-300"></div>
+          <div
+            className={`h-[2px] w-full ${
+              isStepTwo ? "bg-solyntaBlue" : "bg-gray-300"
+            }`}
+          ></div>
           <h2
             className={`${
               isProgreeStepTwo
@@ -75,16 +83,24 @@ function SignUpPage() {
           >
             2
           </h2>
-          <div className="h-[0.5px] w-full bg-gray-300"></div>
-          <h2
-            className={`${
-              isProgreeStepThree
-                ? "bg-solyntaBlue text-white"
-                : "bg-gray-100 text-black"
-            } h-[50px] w-[50px] min-h-[50px] min-w-[50px] max-h-[50px] p-3 rounded-full flex justify-center items-center`}
-          >
-            3
-          </h2>
+          {!isParent && (
+            <>
+              <div
+                className={`h-[2px] w-full ${
+                  isStepThree ? "bg-solyntaBlue" : "bg-gray-300"
+                }`}
+              ></div>
+              <h2
+                className={`${
+                  isProgreeStepThree
+                    ? "bg-solyntaBlue text-white"
+                    : "bg-gray-100 text-black"
+                } h-[50px] w-[50px] min-h-[50px] min-w-[50px] max-h-[50px] p-3 rounded-full flex justify-center items-center`}
+              >
+                3
+              </h2>
+            </>
+          )}
         </div>
 
         <hr className="my-10" />
@@ -155,6 +171,7 @@ function SignUpPage() {
           </div>
         )}
 
+        {/* TEACHERS */}
         {/* Step 2 - Teacher */}
         {isStepTwo && isTeacher && (
           <div>
@@ -168,7 +185,7 @@ function SignUpPage() {
         )}
 
         {/* Step 3 - Teacher */}
-        {isStepTwo && isTeacher && (
+        {isStepThree && isTeacher && (
           <div>
             <div className="text-center">
               <h2 className={`font-bold text-3xl`}>
@@ -179,7 +196,53 @@ function SignUpPage() {
               </p>
             </div>
 
-            <TeacherStepTwoForm />
+            <TeacherStepThreeForm />
+          </div>
+        )}
+
+        {/* STUDENTS */}
+        {/* Step 2 - Student */}
+        {isStepTwo && isStudent && (
+          <div>
+            <div className="text-center">
+              <h2 className={`font-bold text-3xl`}>Academic Year</h2>
+              <p className={`mt-3`}>Provide the academic year you are in</p>
+            </div>
+
+            <StudentStepTwoForm />
+          </div>
+        )}
+
+        {/* Step 3 - Student */}
+        {isStepThree && isStudent && (
+          <div>
+            <div className="text-center">
+              <h2 className={`font-bold text-3xl`}>
+                Personal Information and Account Setup
+              </h2>
+              <p className={`mt-3`}>
+                Enter your personal information and set up your account.
+              </p>
+            </div>
+
+            <StudentStepThreeForm />
+          </div>
+        )}
+
+        {/* PARENTS */}
+        {/* Step 2 - Parent */}
+        {isStepTwo && isParent && isParentStepTwo && (
+          <div>
+            <div className="text-center">
+              <h2 className={`font-bold text-3xl`}>
+                Personal Information and Account Setup
+              </h2>
+              <p className={`mt-3`}>
+                Enter your personal information and set up your account.
+              </p>
+            </div>
+
+            <ParentStepTwoForm />
           </div>
         )}
       </div>
@@ -191,6 +254,7 @@ function SignUpPage() {
           onClick={() => {
             if (isStepTwo) {
               setIsStepOne(true);
+              if (isParent) setIsParentStepTwo(false);
               setIsStepTwo(false);
               // Update previous button disabled state
               setIsPreviousDisabled(false);
@@ -199,6 +263,7 @@ function SignUpPage() {
               // Scroll up
               scrollTop.current?.scrollIntoView({ behavior: "smooth" });
             } else if (isStepThree) {
+              if (isParent) setIsParentStepTwo(true);
               setIsStepTwo(true);
               setIsStepThree(false);
               // Update previous button disabled state
@@ -212,32 +277,44 @@ function SignUpPage() {
         >
           Previous
         </button>
-        <button
-          className="h-12 px-7 py-2 w-32 rounded-lg bg-solyntaBlue text-white"
-          onClick={() => {
-            if (isStepOne) {
-              setIsStepOne(false);
-              setIsStepTwo(true);
-              // Update previous button disabled state
-              setIsPreviousDisabled(false);
-              // Update progress bar
-              setIsProgreeStepTwo(true);
-              // Scroll up
-              scrollTop.current?.scrollIntoView({ behavior: "smooth" });
-            } else if (isStepTwo) {
-              setIsStepTwo(false);
-              setIsStepThree(true);
-              // Update previous button disabled state
-              setIsPreviousDisabled(false);
-              // Update progress bar
-              setIsProgreeStepThree(true);
-              // Scroll up
-              scrollTop.current?.scrollIntoView({ behavior: "smooth" });
-            }
-          }}
-        >
-          Continue
-        </button>
+        {!isStepThree && !isParentStepTwo && (
+          <button
+            className="h-12 px-7 py-2 w-32 rounded-lg bg-solyntaBlue text-white"
+            onClick={() => {
+              if (isStepOne) {
+                setIsStepOne(false);
+                if (isParent) setIsParentStepTwo(true);
+                setIsStepTwo(true);
+                // Update previous button disabled state
+                setIsPreviousDisabled(false);
+                // Update progress bar
+                setIsProgreeStepTwo(true);
+                // Scroll up
+                scrollTop.current?.scrollIntoView({ behavior: "smooth" });
+              } else if (isStepTwo) {
+                setIsStepTwo(false);
+                setIsStepThree(true);
+                // Update previous button disabled state
+                setIsPreviousDisabled(false);
+                // Update progress bar
+                setIsProgreeStepThree(true);
+                // Scroll up
+                scrollTop.current?.scrollIntoView({ behavior: "smooth" });
+              }
+            }}
+          >
+            Continue
+          </button>
+        )}
+
+        {(isStepThree || (isStepTwo && isParent)) && (
+          <button
+            className="h-12 px-7 py-2 w-32 rounded-lg bg-solyntaBlue text-white"
+            onClick={() => {}}
+          >
+            Confirm
+          </button>
+        )}
       </div>
       {/* Already have an account? */}
       <p className="text-center">

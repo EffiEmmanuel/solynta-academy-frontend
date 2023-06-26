@@ -1,10 +1,10 @@
 import axios from "axios";
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import TeacherStepThreeFormSchema from "./validation";
+import ParentStepTwoFormSchema from "./validation";
 import { useFormik } from "formik";
 
-function TeacherStepThreeForm() {
+function ParentStepTwoForm() {
   const [isLoading, setIsLoading] = useState(false);
   const Router = useNavigate();
   // Terms agreement state
@@ -37,7 +37,7 @@ function TeacherStepThreeForm() {
       password: "",
       confirmPassword: "",
     },
-    validationSchema: TeacherStepThreeFormSchema,
+    validationSchema: ParentStepTwoFormSchema,
     onSubmit,
   });
 
@@ -183,4 +183,4 @@ function TeacherStepThreeForm() {
   );
 }
 
-export default TeacherStepThreeForm;
+export default ParentStepTwoForm;

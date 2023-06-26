@@ -34,7 +34,7 @@ function TeacherStepTwoForm() {
   return (
     <form className="flex flex-col gap-y-10 mt-10">
       <div className="w-full relative my-2">
-        <label htmlFor="higherEducation" className="text-sm absolute left-0">
+        <label htmlFor="higherEducation" className="text-sm absolute left-0 text-solyntaBlue font-semibold">
           Higher Education Qualification
         </label>
         <input
@@ -52,7 +52,7 @@ function TeacherStepTwoForm() {
         </p>
       </div>
       <div className="w-full relative my-2">
-        <label htmlFor="subjectSpecialism" className="text-sm absolute left-0">
+        <label htmlFor="subjectSpecialism" className="text-sm absolute left-0 text-solyntaBlue font-semibold">
           Subject Specialism
         </label>
         <input
@@ -70,7 +70,7 @@ function TeacherStepTwoForm() {
         </p>
       </div>
       <div className="w-full relative my-2">
-        <label htmlFor="experienceSince" className="text-sm absolute left-0">
+        <label htmlFor="experienceSince" className="text-sm absolute left-0 text-solyntaBlue font-semibold">
           Experience since
         </label>
         <input

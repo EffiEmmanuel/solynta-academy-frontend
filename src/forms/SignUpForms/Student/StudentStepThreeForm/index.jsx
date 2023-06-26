@@ -1,26 +1,26 @@
 import axios from "axios";
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import TeacherStepThreeFormSchema from "./validation";
+import StudentStepThreeFormSchema from "./validation";
 import { useFormik } from "formik";
 
-function TeacherStepThreeForm() {
+function StudentStepThreeForm() {
   const [isLoading, setIsLoading] = useState(false);
   const Router = useNavigate();
+
   // Terms agreement state
   const [agreeToTerms, setAgreeToTerms] = useState();
 
   const onSubmit = async (values, actions) => {
     setIsLoading(true);
-
-    if (!agreeToTerms) return;
+    if(!agreeToTerms) return
     // TO-DO: Send API request to server
     await axios
       .post("", {
         firstName: values.firstName,
         lastName: values.lastName,
         email: values.email,
-        phone: values.phone,
+        age: values.age,
         password: values.password,
         confirmPassword: values.confirmPassword,
       })
@@ -33,11 +33,11 @@ function TeacherStepThreeForm() {
       firstName: "",
       lastName: "",
       email: "",
-      phone: "",
+      age: "",
       password: "",
       confirmPassword: "",
     },
-    validationSchema: TeacherStepThreeFormSchema,
+    validationSchema: StudentStepThreeFormSchema,
     onSubmit,
   });
 
@@ -46,7 +46,7 @@ function TeacherStepThreeForm() {
       <div className="flex lg:flex-row flex-col items-center justify-between gap-x-6">
         <div className="w-full relative my-2">
           <label htmlFor="firstName" className="text-sm absolute left-0 text-solyntaBlue font-semibold">
-            First Name
+            First Name:
           </label>
           <input
             className="w-full h-16 bg-cosretBlue-300 px-8 text-black text-sm mt-7 focus:outline-none border-[0.5px] rounded-lg bg-white shadow-md"
@@ -65,7 +65,7 @@ function TeacherStepThreeForm() {
 
         <div className="w-full relative my-2">
           <label htmlFor="lastName" className="text-sm absolute left-0 text-solyntaBlue font-semibold">
-            Last Name
+            Last Name:
           </label>
           <input
             className="w-full h-16 bg-cosretBlue-300 px-8 text-black text-sm mt-7 focus:outline-none border-[0.5px] rounded-lg bg-white shadow-md"
@@ -103,21 +103,21 @@ function TeacherStepThreeForm() {
         </div>
 
         <div className="w-full relative my-2">
-          <label htmlFor="phone" className="text-sm absolute left-0 text-solyntaBlue font-semibold">
-            Mobile Phone
+          <label htmlFor="age" className="text-sm absolute left-0 text-solyntaBlue font-semibold">
+            Age
           </label>
           <input
             className="w-full h-16 bg-cosretBlue-300 px-8 text-black text-sm mt-7 focus:outline-none border-[0.5px] rounded-lg bg-white shadow-md"
-            id="phone"
-            type="tel"
-            name="phone"
-            value={values.phone}
+            id="age"
+            type="number"
+            name="age"
+            value={values.age}
             onChange={handleChange}
-            placeholder="Mobile Phone"
+            placeholder="Mobile age"
           />
 
           <p className="text-left mt-3 text-xs">
-            {errors.phone ? errors.phone : ""}
+            {errors.age ? errors.age : ""}
           </p>
         </div>
       </div>
@@ -169,18 +169,10 @@ function TeacherStepThreeForm() {
           onChange={(e) => setAgreeToTerms(e.target.value)}
         />
 
-        <p>
-          Agree to{" "}
-          <Link
-            to="/terms-and-conditions"
-            className="underline underline-offset-3"
-          >
-            Terms & Conditions
-          </Link>
-        </p>
+        <p>Agree to <Link to='/terms-and-conditions' className="underline underline-offset-3">Terms & Conditions</Link></p>
       </div>
     </form>
   );
 }
 
-export default TeacherStepThreeForm;
+export default StudentStepThreeForm;

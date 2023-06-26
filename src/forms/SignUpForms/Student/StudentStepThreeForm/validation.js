@@ -1,7 +1,7 @@
 import * as yup from "yup";
 
 const requiredField = "* This field is required";
-const TeacherStepThreeFormSchema = yup.object().shape({
+const StudentStepThreeFormSchema = yup.object().shape({
   firstName: yup
     .string()
     .min(4, "Answer must be more than 4 characters")
@@ -14,7 +14,7 @@ const TeacherStepThreeFormSchema = yup.object().shape({
     .string()
     .email("Please provide a valid email address")
     .required(requiredField),
-  phone: yup.string().min(10).max(14).required(requiredField),
+  age: yup.number().required(requiredField),
   password: yup
     .string()
     .min(8, "Password cannot be less than 8 characters")
@@ -25,4 +25,4 @@ const TeacherStepThreeFormSchema = yup.object().shape({
     .required(requiredField),
 });
 
-export default TeacherStepThreeFormSchema;
+export default StudentStepThreeFormSchema;
