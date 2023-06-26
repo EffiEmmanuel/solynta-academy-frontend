@@ -249,7 +249,7 @@ function SignUpPage() {
       {/* Action buttons */}
       <div className="flex justify-between items-center my-14">
         <button
-          className="h-12 px-7 py-2 w-32 rounded-lg border-[0.5px] border-[#3F6FBB]"
+          className="h-12 px-7 py-2 w-32 rounded-lg border-[0.5px] border-[#3F6FBB] text-solyntaBlue"
           disabled={isPreviousDisabled}
           onClick={() => {
             if (isStepTwo) {
