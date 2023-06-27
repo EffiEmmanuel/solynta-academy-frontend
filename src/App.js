@@ -7,6 +7,11 @@ import SignUpPage from "./pages/auth/SignUpPage";
 import PricingPage from "./pages/PricingPage";
 import ContactPage from "./pages/ContactPage";
 import FaqPage from "./pages/FaqPage";
+import ProtectedRoute from "./components/security/ProtectedRoute";
+import TeacherDashboardOverview from "./pages/teachers/Dashboard";
+import StudentMonitoringPage from "./pages/teachers/StudentMonitoring";
+import CommunicationToolsPage from "./pages/teachers/CommunicationTools";
+import ResourceLibraryPage from "./pages/teachers/ResourceLibrary";
 
 function App() {
   return (
@@ -24,16 +29,40 @@ function App() {
           <Route path="signup" element={<SignUpPage />} />
         </Route>
 
-        {/* Dashboard Routes */}
-        {/* <Route
-          path="/user/dashboard"
+        {/* Dashboard Routes - Teacher */}
+        <Route
+          path="/teacher/dashboard"
           element={
             <ProtectedRoute>
-              <UserDashboardPage />
+              <TeacherDashboardOverview />
             </ProtectedRoute>
           }
         />
         <Route
+          path="/teacher/dashboard/student-monitoring"
+          element={
+            <ProtectedRoute>
+              <StudentMonitoringPage />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/teacher/dashboard/communication-tools"
+          element={
+            <ProtectedRoute>
+              <CommunicationToolsPage />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/teacher/dashboard/resource-library"
+          element={
+            <ProtectedRoute>
+              <ResourceLibraryPage />
+            </ProtectedRoute>
+          }
+        />
+        {/* <Route
           path="/user/dashboard/settings"
           element={
             <ProtectedRoute>

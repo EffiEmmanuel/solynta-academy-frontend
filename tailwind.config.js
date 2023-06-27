@@ -13,6 +13,7 @@ module.exports = {
         solyntaYellow: "#FFD60C",
         solyntaYellowFaded: "#FFF0A5",
         solyntaBlue: "#3F6FBB",
+        solyntaBlueFaded: "#CCDDF8",
         solyntaBlack: "#3F3F3F",
       },
     },
