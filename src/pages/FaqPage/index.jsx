@@ -15,7 +15,7 @@ function FaqPage() {
     <div>
       {/* Navbar */}
       <div className="lg:px-20 py-5 px-10">
-        <Navbar isPricing />
+        <Navbar isFaq />
       </div>
 
       {/* Main section */}

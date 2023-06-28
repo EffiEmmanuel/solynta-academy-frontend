@@ -13,6 +13,13 @@ import StudentMonitoringPage from "./pages/teachers/StudentMonitoring";
 import CommunicationToolsPage from "./pages/teachers/CommunicationTools";
 import ResourceLibraryPage from "./pages/teachers/ResourceLibrary";
 
+// Student Components
+import StudentDashboardOverview from "./pages/students/Dashboard";
+import Courses from "./pages/students/Courses";
+import StudentLessonsPage from "./pages/students/Lessons";
+import StudentProgressTrackingPage from "./pages/students/ProgressTracking";
+import StudentCommunicationToolsPage from "./pages/students/CommunicationTools";
+
 function App() {
   return (
     <>
@@ -29,47 +36,86 @@ function App() {
           <Route path="signup" element={<SignUpPage />} />
         </Route>
 
-        {/* Dashboard Routes - Teacher */}
-        <Route
-          path="/teacher/dashboard"
-          element={
-            <ProtectedRoute>
-              <TeacherDashboardOverview />
-            </ProtectedRoute>
-          }
-        />
-        <Route
-          path="/teacher/dashboard/student-monitoring"
-          element={
-            <ProtectedRoute>
-              <StudentMonitoringPage />
-            </ProtectedRoute>
-          }
-        />
-        <Route
-          path="/teacher/dashboard/communication-tools"
-          element={
-            <ProtectedRoute>
-              <CommunicationToolsPage />
-            </ProtectedRoute>
-          }
-        />
-        <Route
-          path="/teacher/dashboard/resource-library"
-          element={
-            <ProtectedRoute>
-              <ResourceLibraryPage />
-            </ProtectedRoute>
-          }
-        />
-        {/* <Route
-          path="/user/dashboard/settings"
-          element={
-            <ProtectedRoute>
-              <UserSettingsPage />
-            </ProtectedRoute>
-          }
-        /> */}
+        {/* Dashboard routes - Teacher */}
+        <Route path="/teacher/dashboard">
+          <Route
+            path=""
+            element={
+              <ProtectedRoute>
+                <TeacherDashboardOverview />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="student-monitoring"
+            element={
+              <ProtectedRoute>
+                <StudentMonitoringPage />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="communication-tools"
+            element={
+              <ProtectedRoute>
+                <CommunicationToolsPage />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="resource-library"
+            element={
+              <ProtectedRoute>
+                <ResourceLibraryPage />
+              </ProtectedRoute>
+            }
+          />
+        </Route>
+
+        {/* Dashboard routes - Student */}
+        <Route path="/student/dashboard">
+          <Route
+            path=""
+            element={
+              <ProtectedRoute>
+                <StudentDashboardOverview />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="courses"
+            element={
+              <ProtectedRoute>
+                <Courses />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="lessons"
+            element={
+              <ProtectedRoute>
+                <StudentLessonsPage />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="progress-tracking"
+            element={
+              <ProtectedRoute>
+                <StudentProgressTrackingPage />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="communication-tools"
+            element={
+              <ProtectedRoute>
+                <StudentCommunicationToolsPage />
+              </ProtectedRoute>
+            }
+          />
+        </Route>
+
       </Routes>
     </>
   );

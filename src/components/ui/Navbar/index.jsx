@@ -70,7 +70,7 @@ function Navbar({ isHome, isAboutUs, isPricing, isFaq, isContactUs, isBlog }) {
           <li>
             <Link
               className={`${isContactUs && "text-solyntaBlue font-bold"}`}
-              to="/about-us"
+              to="/contact-us"
             >
               Contact Us
             </Link>
