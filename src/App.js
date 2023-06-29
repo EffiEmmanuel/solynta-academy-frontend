@@ -19,6 +19,10 @@ import Courses from "./pages/students/Courses";
 import StudentLessonsPage from "./pages/students/Lessons";
 import StudentProgressTrackingPage from "./pages/students/ProgressTracking";
 import StudentCommunicationToolsPage from "./pages/students/CommunicationTools";
+import ParentDashboardOverview from "./pages/parents/Dashboard";
+import ChildPerformancePage from "./pages/parents/ChildPerformance";
+import TeachersNotesPage from "./pages/parents/TeachersNotes";
+import ParentCommunicationToolsPage from "./pages/parents/CommunicationTools";
 
 function App() {
   return (
@@ -116,6 +120,41 @@ function App() {
           />
         </Route>
 
+        {/* Dashboard routes - Parent */}
+        <Route path="/parent/dashboard">
+          <Route
+            path=""
+            element={
+              <ProtectedRoute>
+                <ParentDashboardOverview />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="childs-performance"
+            element={
+              <ProtectedRoute>
+                <ChildPerformancePage />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="teachers-notes"
+            element={
+              <ProtectedRoute>
+                <TeachersNotesPage />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="communication-tools"
+            element={
+              <ProtectedRoute>
+                <ParentCommunicationToolsPage />
+              </ProtectedRoute>
+            }
+          />
+        </Route>
       </Routes>
     </>
   );

@@ -13,7 +13,7 @@ import student from "../../../../../assets/images/student.png";
 // const socket = io.connect(`${process.env.NEXT_PUBLIC_APP_SERVER_URL}`);
 // const socket = io.connect("https://www.corset-backend.vercel.app");
 
-export default function TeacherChat(props) {
+export default function ParentChat(props) {
   const { user } = useContext(UserContext);
 
   const [messages, setMessages] = useState([]);

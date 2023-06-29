@@ -35,6 +35,9 @@ export default function StudentDashboardHome() {
         label: "",
         data: [20, 10, 20, 40, 30, 60],
         backgroundColor: "#FFD60C",
+        borderWidth: 0.5,
+        barThickness: 10,
+        borderRadius: 200
       },
     ],
   };

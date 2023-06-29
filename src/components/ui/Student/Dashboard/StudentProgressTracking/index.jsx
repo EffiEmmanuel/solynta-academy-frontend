@@ -36,6 +36,9 @@ export default function StudentProgressTracking() {
         label: "",
         data: [20, 10, 20, 40, 30, 60],
         backgroundColor: "#FFD60C",
+        borderWidth: 0.5,
+        barThickness: 10,
+        borderRadius: 200
       },
     ],
   };
@@ -441,7 +444,7 @@ export default function StudentProgressTracking() {
         </div>
 
         {/* RIGHT SECTION */}
-        <div className="text-black flex flex-col gap-y-10 lg:absolute lg:right-0 lg:top-0 my-10 lg:my-0 max-w-[30%]">
+        <div className="text-black flex flex-col gap-y-10 lg:absolute lg:right-0 lg:top-0 my-10 lg:my-0 lg:max-w-[30%]">
           <div className="bg-white text-black shadow-lg rounded-lg p-5">
             <h3 className="text-xl font-bold my-3">Completed Assignments</h3>
 

@@ -59,7 +59,7 @@ export default function DashboardNav({ isNavHidden, user, page }) {
                 className="flex items-center gap-2"
               >
                 <MdPlayLesson size={16} className="" />
-                <span className="text-sm">My Lessons</span>
+                <span className="text-sm">Lessons</span>
               </Link>
             </li>
             <li

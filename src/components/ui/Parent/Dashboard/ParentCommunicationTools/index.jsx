@@ -1,14 +1,14 @@
 import { useContext } from "react";
-import { UserContext } from "../../Dashboard";
-import TeacherChat from "../TeacherChat";
+import { UserContext } from "..";
+import ParentChat from "../ParentChat";
 
-export default function TeacherCommunicationTools() {
+export default function ParentCommunicationTools() {
   const { user, projects } = useContext(UserContext);
   return (
     <>
       {/* LATEST ACTIVITY */}
       <section className="mt-20 relative bg-white rounded-xl text-black">
-        <TeacherChat />
+        <ParentChat />
       </section>
     </>
   );

@@ -1,6 +1,6 @@
 import { FaBug, FaHeadset, FaHome, FaPlus, FaSignOutAlt } from "react-icons/fa";
 import { Link, useNavigate } from "react-router-dom";
-import { MdChat, MdDashboard } from "react-icons/md";
+import { MdChat, MdDashboard, MdNote } from "react-icons/md";
 import { GiGraduateCap } from "react-icons/gi";
 import { BiLibrary } from "react-icons/bi";
 import { IoMdSettings } from "react-icons/io";
@@ -27,42 +27,42 @@ export default function DashboardNav({ isNavHidden, user, page }) {
           <ul className="mt-3">
             <li
               className={`my-8 ml-7 py-2 pl-3 rounded-l-lg ${
-                page == "dashboard" && "bg-solyntaBlue text-white"
+                page == "dashboard" && "bg-[#113775] text-white"
               }`}
             >
-              <Link to="/teacher/dashboard" className="flex items-center gap-2">
+              <Link to="/parent/dashboard" className="flex items-center gap-2">
                 <MdDashboard size={16} className="" />
                 <span className=" text-sm">Dashboard</span>
               </Link>
             </li>
             <li
               className={`my-8 ml-7 py-2 pl-3 rounded-l-lg ${
-                page == "student-monitoring" && "bg-solyntaBlue text-white"
+                page == "childs-performance" && "bg-[#113775] text-white"
               }`}
             >
-              <Link to="/teacher/dashboard/student-monitoring" className="flex items-center gap-2">
+              <Link to="/parent/dashboard/childs-performance" className="flex items-center gap-2">
                 <GiGraduateCap size={16} className="" />
-                <span className=" text-sm">Student Monitoring</span>
+                <span className=" text-sm">Child's Performance</span>
               </Link>
             </li>
             <li
               className={`my-8 ml-7 py-2 pl-3 rounded-l-lg ${
-                page == "communication-tools" && "bg-solyntaBlue text-white"
+                page == "teachers-notes" && "bg-[#113775] text-white"
               }`}
             >
-              <Link to="/teacher/dashboard/communication-tools" className="flex items-center gap-2">
+              <Link to="/parent/dashboard/teachers-notes" className="flex items-center gap-2">
+                <MdNote size={16} className="" />
+                <span className=" text-sm">Teacher's Notes</span>
+              </Link>
+            </li>
+            <li
+              className={`my-8 ml-7 py-2 pl-3 rounded-l-lg ${
+                page == "communication-tools" && "bg-[#113775] text-white"
+              }`}
+            >
+              <Link to="/parent/dashboard/communication-tools" className="flex items-center gap-2">
                 <MdChat size={16} className="" />
                 <span className=" text-sm">Communication Tools</span>
-              </Link>
-            </li>
-            <li
-              className={`my-8 ml-7 py-2 pl-3 rounded-l-lg ${
-                page == "resource-library" && "bg-solyntaBlue text-white"
-              }`}
-            >
-              <Link to="/teacher/dashboard/resource-library" className="flex items-center gap-2">
-                <BiLibrary size={16} className="" />
-                <span className=" text-sm">Resource Library</span>
               </Link>
             </li>
           </ul>

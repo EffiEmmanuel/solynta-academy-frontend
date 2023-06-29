@@ -9,7 +9,7 @@ import { useNavigate } from "react-router-dom";
 // Creating a user context to manage state
 export const UserContext = createContext();
 
-function Dashboard(props) {
+function ParentDashboard(props) {
   const [user, setUser] = useState();
   const [projects, setProjects] = useState();
 
@@ -72,7 +72,7 @@ function Dashboard(props) {
       <ToastContainer />
       <DashboardNavbar page={props?.page} />
       {/* BODY */}
-      <div className="p-10 lg:pl-[25%] scrollbar-thin bg-solyntaBlue text-white min-h-screen">
+      <div className="p-10 lg:pl-[25%] scrollbar-thin bg-[#113775] text-white min-h-screen">
         <DahboardTopBar />
         {props.children}
       </div>
@@ -80,4 +80,4 @@ function Dashboard(props) {
   );
 }
 
-export default Dashboard;
+export default ParentDashboard;

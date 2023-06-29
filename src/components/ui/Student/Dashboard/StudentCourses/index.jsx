@@ -40,6 +40,9 @@ export default function StudentCourses() {
         label: "",
         data: [20, 10, 20, 40, 30, 60],
         backgroundColor: "#FFD60C",
+        borderWidth: 0.5,
+        barThickness: 10,
+        borderRadius: 200,
       },
     ],
   };
@@ -85,10 +88,10 @@ export default function StudentCourses() {
 
             <div className="flex flex-col gap-y-10">
               <div className="bg-white shadow-lg p-5 rounded-lg flex justify-between gap-x-5">
-                <div className="flex items-center gap-x-3">
+                <div className="flex flex-col lg:flex-row gap-y-8 lg:items-center gap-x-3">
                   <img src={esience} alt="" className="shadow-lg" />
                   <div>
-                    <div className="flex items-center justify-between">
+                    <div className="flex flex-col-reverse gap-y-3 lg:flex-row lg:items-center lg:justify-between">
                       <p className="font-bold text-black">
                         Introduction to Environmental Science
                       </p>
@@ -107,11 +110,12 @@ export default function StudentCourses() {
                   </div>
                 </div>
               </div>
+
               <div className="bg-white shadow-lg p-5 rounded-lg flex justify-between gap-x-5">
-                <div className="flex items-center gap-x-3">
+                <div className="flex flex-col lg:flex-row gap-y-8 lg:items-center gap-x-3">
                   <img src={esience} alt="" className="shadow-lg" />
                   <div>
-                    <div className="flex items-center justify-between">
+                    <div className="flex flex-col-reverse gap-y-3 lg:flex-row lg:items-center lg:justify-between">
                       <p className="font-bold text-black">
                         Introduction to Environmental Science
                       </p>
@@ -143,10 +147,10 @@ export default function StudentCourses() {
 
             <div className="flex flex-col gap-y-10">
               <div className="bg-white shadow-lg p-5 rounded-lg flex justify-between gap-x-5">
-                <div className="flex items-center gap-x-3">
+                <div className="flex flex-col lg:flex-row gap-y-8 lg:items-center gap-x-3">
                   <img src={mathematics} alt="" className="shadow-lg" />
                   <div>
-                    <div className="flex items-center justify-between">
+                    <div className="flex flex-col-reverse gap-y-3 lg:flex-row lg:items-center lg:justify-between">
                       <p className="font-bold text-black">
                         Advanced Algebra and Trigonometry
                       </p>
@@ -166,10 +170,10 @@ export default function StudentCourses() {
                 </div>
               </div>
               <div className="bg-white shadow-lg p-5 rounded-lg flex justify-between gap-x-5">
-                <div className="flex items-center gap-x-3">
+                <div className="flex flex-col lg:flex-row gap-y-8 lg:items-center gap-x-3">
                   <img src={mathematics} alt="" className="shadow-lg" />
                   <div>
-                    <div className="flex items-center justify-between">
+                    <div className="flex flex-col-reverse gap-y-3 lg:flex-row lg:items-center lg:justify-between">
                       <p className="font-bold text-black">
                         Advanced Algebra and Trigonometry
                       </p>
@@ -193,7 +197,7 @@ export default function StudentCourses() {
         </div>
 
         {/* RIGHT SECTION */}
-        <div className="text-black flex flex-col gap-y-10 lg:absolute lg:right-0 lg:top-0 my-10 lg:my-0 max-w-[30%]">
+        <div className="text-black flex flex-col gap-y-10 lg:absolute lg:right-0 lg:top-0 my-10 lg:my-0 lg:max-w-[30%]">
           <div className="bg-white shadow-lg rounded-lg p-5">
             <img src={esience} alt="" className="w-full" />
 
