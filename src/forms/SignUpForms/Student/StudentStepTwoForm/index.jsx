@@ -4,28 +4,9 @@ import { useNavigate } from "react-router-dom";
 import StudentStepTwoFormSchema from "./validation";
 import { useFormik } from "formik";
 
-function StudentStepTwoForm() {
+function StudentStepTwoForm({ academicYear, setAcademicYear }) {
   const [isLoading, setIsLoading] = useState(false);
   const Router = useNavigate();
-
-  const onSubmit = async (values, actions) => {
-    setIsLoading(true);
-    // TO-DO: Send API request to server
-    await axios
-      .post("", {
-        academicYear: values.academicYear,
-      })
-      .then((res) => {})
-      .catch((err) => {});
-  };
-
-  const { values, errors, handleChange, handleSubmit } = useFormik({
-    initialValues: {
-      academicYear: "",
-    },
-    validationSchema: StudentStepTwoFormSchema,
-    onSubmit,
-  });
 
   return (
     <form className="flex flex-col gap-y-10 mt-10">
@@ -38,14 +19,10 @@ function StudentStepTwoForm() {
           id="academicYear"
           type="text"
           name="academicYear"
-          value={values.academicYear}
-          onChange={handleChange}
+          value={academicYear}
+          onChange={(e) => setAcademicYear(e.target.value)}
           placeholder="Academic Year"
         />
-
-        <p className="text-left mt-3 text-xs">
-          {errors.academicYear ? errors.academicYear : ""}
-        </p>
       </div>
     </form>
   );

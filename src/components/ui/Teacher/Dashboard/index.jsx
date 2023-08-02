@@ -28,41 +28,46 @@ function Dashboard(props) {
   useEffect(() => {
     async function validateSession() {
       const token = localStorage.getItem("token");
+      const user = JSON.parse(localStorage.getItem("student"));
       if (!token) {
         Router("/login");
         //   setIsLoading(false);
         return toast.error("You must be logged in.");
       }
 
-      await axios
-        .post(`${process.env.NEXT_PUBLIC_BASE_URL_API}/users/verifyToken`, {
-          token,
-        })
-        .then((res) => {
-          console.log("RESPONSE:", res.data);
-          setIsUserLoggedIn(true);
-          setIsLoading(false);
-          return axios
-            .get(
-              `${process.env.NEXT_PUBLIC_BASE_URL_API}/users/${res.data.data._id}`
-            )
-            .then((res) => {
-              console.log("SECOND RES:", res.data);
-              setUser(res.data.data);
-              setProjects(res.data.data.projects);
-            })
-            .catch((err) => {});
-        })
-        .catch((err) => {
-          //   toast.error(err.response.data.message);
-          Router("/login");
-          toast.error(
-            "Session expired. Please log in to continue to your dashboard."
-          );
-          setIsLoading(false);
-        });
+      if(user) {
+        setUser(user);
+      }
+
+      // await axios
+      //   .post(`${process.env.NEXT_PUBLIC_BASE_URL_API}/users/verifyToken`, {
+      //     token,
+      //   })
+      //   .then((res) => {
+      //     console.log("RESPONSE:", res.data);
+      //     setIsUserLoggedIn(true);
+      //     setIsLoading(false);
+      //     return axios
+      //       .get(
+      //         `${process.env.NEXT_PUBLIC_BASE_URL_API}/users/${res.data.data._id}`
+      //       )
+      //       .then((res) => {
+      //         console.log("SECOND RES:", res.data);
+      //         setUser(res.data.data);
+      //         setProjects(res.data.data.projects);
+      //       })
+      //       .catch((err) => {});
+      //   })
+      //   .catch((err) => {
+      //     //   toast.error(err.response.data.message);
+      //     Router("/login");
+      //     toast.error(
+      //       "Session expired. Please log in to continue to your dashboard."
+      //     );
+      //     setIsLoading(false);
+      //   });
     }
-    // validateSession();
+    validateSession();
   }, []);
 
   return (

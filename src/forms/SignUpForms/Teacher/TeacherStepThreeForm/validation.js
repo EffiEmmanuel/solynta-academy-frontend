@@ -22,7 +22,6 @@ const TeacherStepThreeFormSchema = yup.object().shape({
   confirmPassword: yup
     .string()
     .min(8, "Password cannot be less than 8 characters")
-    .required(requiredField),
 });
 
 export default TeacherStepThreeFormSchema;

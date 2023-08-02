@@ -8,7 +8,7 @@ const LoginFormSchema = yup.object().shape({
     .required(requiredField),
   password: yup
     .string()
-    .min(8, "Password cannot be less than 8 characters")
+    .min(4, "Password cannot be less than 4 characters")
     .required(requiredField),
 });
 

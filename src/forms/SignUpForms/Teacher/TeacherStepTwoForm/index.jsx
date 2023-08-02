@@ -4,7 +4,14 @@ import { useNavigate } from "react-router-dom";
 import TeacherStepTwoFormSchema from "./validation";
 import { useFormik } from "formik";
 
-function TeacherStepTwoForm() {
+function TeacherStepTwoForm({
+  higherEducation,
+  setHigherEducation,
+  subjectSpecialism,
+  setSubjectSpecialism,
+  experienceSince,
+  setExperienceSince,
+}) {
   const [isLoading, setIsLoading] = useState(false);
   const Router = useNavigate();
 
@@ -13,9 +20,9 @@ function TeacherStepTwoForm() {
     // TO-DO: Send API request to server
     await axios
       .post("", {
-        higherEducation: values.higherEducation,
-        subjectSpecialism: values.subjectSpecialism,
-        experienceSince: values.experienceSince,
+        higherEducation: higherEducation,
+        subjectSpecialism: subjectSpecialism,
+        experienceSince: experienceSince,
       })
       .then((res) => {})
       .catch((err) => {});
@@ -34,7 +41,10 @@ function TeacherStepTwoForm() {
   return (
     <form className="flex flex-col gap-y-10 mt-10">
       <div className="w-full relative my-2">
-        <label htmlFor="higherEducation" className="text-sm absolute left-0 text-solyntaBlue font-semibold">
+        <label
+          htmlFor="higherEducation"
+          className="text-sm absolute left-0 text-solyntaBlue font-semibold"
+        >
           Higher Education Qualification
         </label>
         <input
@@ -42,17 +52,18 @@ function TeacherStepTwoForm() {
           id="higherEducation"
           type="text"
           name="higherEducation"
-          value={values.higherEducation}
-          onChange={handleChange}
+          value={higherEducation}
+          onChange={(e) => setHigherEducation(e.target.value)}
           placeholder="Higher Education Qualification"
         />
 
-        <p className="text-left mt-3 text-xs">
-          {errors.higherEducation ? errors.higherEducation : ""}
-        </p>
+        <p className="text-left mt-3 text-xs"></p>
       </div>
       <div className="w-full relative my-2">
-        <label htmlFor="subjectSpecialism" className="text-sm absolute left-0 text-solyntaBlue font-semibold">
+        <label
+          htmlFor="subjectSpecialism"
+          className="text-sm absolute left-0 text-solyntaBlue font-semibold"
+        >
           Subject Specialism
         </label>
         <input
@@ -60,17 +71,18 @@ function TeacherStepTwoForm() {
           id="subjectSpecialism"
           type="text"
           name="subjectSpecialism"
-          value={values.subjectSpecialism}
-          onChange={handleChange}
+          value={subjectSpecialism}
+          onChange={(e) => setSubjectSpecialism(e.target.value)}
           placeholder="Subject Specialism"
         />
 
-        <p className="text-left mt-3 text-xs">
-          {errors.subjectSpecialism ? errors.subjectSpecialism : ""}
-        </p>
+        <p className="text-left mt-3 text-xs"></p>
       </div>
       <div className="w-full relative my-2">
-        <label htmlFor="experienceSince" className="text-sm absolute left-0 text-solyntaBlue font-semibold">
+        <label
+          htmlFor="experienceSince"
+          className="text-sm absolute left-0 text-solyntaBlue font-semibold"
+        >
           Experience since
         </label>
         <input
@@ -78,14 +90,12 @@ function TeacherStepTwoForm() {
           id="experienceSince"
           type="text"
           name="experienceSince"
-          value={values.experienceSince}
-          onChange={handleChange}
+          value={experienceSince}
+          onChange={(e) => setExperienceSince(e.target.value)}
           placeholder="Experience since"
         />
 
-        <p className="text-left mt-3 text-xs">
-          {errors.experienceSince ? errors.experienceSince : ""}
-        </p>
+        <p className="text-left mt-3 text-xs"></p>
       </div>
     </form>
   );

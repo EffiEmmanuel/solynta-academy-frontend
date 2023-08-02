@@ -4,14 +4,18 @@ import { useState } from "react";
 import { FaChalkboardTeacher } from "react-icons/fa";
 import { PiStudent } from "react-icons/pi";
 import { RiParentFill } from "react-icons/ri";
-import { Link } from "react-router-dom";
+import { Link, Router, redirect, useNavigate } from "react-router-dom";
 import TeacherStepTwoForm from "../../../forms/SignUpForms/Teacher/TeacherStepTwoForm";
 import TeacherStepThreeForm from "../../../forms/SignUpForms/Teacher/TeacherStepThreeForm";
 import StudentStepTwoForm from "../../../forms/SignUpForms/Student/StudentStepTwoForm";
 import StudentStepThreeForm from "../../../forms/SignUpForms/Student/StudentStepThreeForm";
 import ParentStepTwoForm from "../../../forms/SignUpForms/Parent/ParentStepTwoForm";
+import axios from "axios";
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 function SignUpPage() {
+  const navigate = useNavigate()
   const stepsAndPages = [{ 1: {} }];
 
   const [isStepOne, setIsStepOne] = useState(true);
@@ -35,8 +39,84 @@ function SignUpPage() {
   // Scroll state
   const scrollTop = useRef(null);
 
+  // FORM FIELDS
+  const [higherEducation, setHigherEducation] = useState("");
+  const [subjectSpecialism, setSubjectSpecialism] = useState("");
+  const [experienceSince, setExperienceSince] = useState("");
+  const [firstName, setFrstName] = useState("");
+  const [lastName, setLastName] = useState("");
+  const [emailAddress, setEmailAddress] = useState("");
+  const [phone, setPhone] = useState("");
+  const [password, setPassword] = useState("");
+
+  // STUDENT FORM FIELDS
+  const [academicYear, setAcademicYear] = useState("");
+  const [age, setAge] = useState("");
+
+  const onSubmit = async (values) => {
+    console.log('AALL VALUES', values);
+    // TO-DO: Send API request to server
+    if (isTeacher) {
+      await axios
+        .post(`http://localhost:3001/teacher/register`, {
+          ...values,
+          confirmPassword: password,
+        })
+        .then((res) => {
+          console.log(res);
+          if(res.data.success) {
+            toast('Your account was created successfully!', 'success');
+            setTimeout(() => {
+              navigate('/auth/login');
+            }, 1500);
+          }
+        })
+        .catch((err) => {
+          toast(err.response?.data?.message, 'error');
+          console.log(err);
+        });
+    } else if (isStudent) {
+      await axios
+        .post(`http://localhost:3001/student/register`, {
+          ...values,
+          confirmPassword: password,
+        })
+        .then((res) => {
+          console.log(res);
+          if(res.data.success) {
+            toast('Your account was created successfully!', 'success');
+            setTimeout(() => {
+              navigate('/auth/login');
+            }, 1500);
+          }
+        })
+        .catch((err) => {
+          console.log(err);
+          toast(err.response?.data?.message, 'error');
+        });
+    } else {
+      await axios
+        .post(`http://localhost:3001/parent/register`, {
+          ...values,
+          confirmPassword: password,
+        })
+        .then((res) => {
+          if(res.data.success) {
+            toast('Your account was created successfully!', 'success');
+            setTimeout(() => {
+              navigate('/auth/login');
+            }, 1500);
+          }
+        })
+        .catch((err) => {
+          console.log(err);
+          toast(err.response?.data?.message, 'error');
+        });
+    }
+  };
   return (
     <div className="py-10 lg:px-20 px-10 bg-[#F4F6FA]">
+    <ToastContainer />
       <div className="mx-auto text-center flex flex-col items-center">
         {/* Logo */}
         <img src={solyntaLogo} alt="Solynta Academy" className="w-[80px]" />
@@ -180,7 +260,14 @@ function SignUpPage() {
               <p className={`mt-3`}>Provide your teaching details.</p>
             </div>
 
-            <TeacherStepTwoForm />
+            <TeacherStepTwoForm
+              higherEducation={higherEducation}
+              setHigherEducation={setHigherEducation}
+              subjectSpecialism={subjectSpecialism}
+              setSubjectSpecialism={setSubjectSpecialism}
+              experienceSince={setExperienceSince}
+              setExperienceSince={setExperienceSince}
+            />
           </div>
         )}
 
@@ -196,7 +283,19 @@ function SignUpPage() {
               </p>
             </div>
 
-            <TeacherStepThreeForm />
+            <TeacherStepThreeForm
+              firstName={firstName}
+              setFirstName={setFrstName}
+              lastName={lastName}
+              setLastName={setLastName}
+              email={emailAddress}
+              setEmailAddress={setEmailAddress}
+              phone={phone}
+              setPhone={setPhone}
+              password={password}
+              setPassword={setPassword}
+              onSubmit={onSubmit}
+            />
           </div>
         )}
 
@@ -209,7 +308,10 @@ function SignUpPage() {
               <p className={`mt-3`}>Provide the academic year you are in</p>
             </div>
 
-            <StudentStepTwoForm />
+            <StudentStepTwoForm
+              academicYear={academicYear}
+              setAcademicYear={setAcademicYear}
+            />
           </div>
         )}
 
@@ -225,7 +327,19 @@ function SignUpPage() {
               </p>
             </div>
 
-            <StudentStepThreeForm />
+            <StudentStepThreeForm
+              firstName={firstName}
+              setFirstName={setFrstName}
+              lastName={lastName}
+              setLastName={setLastName}
+              email={emailAddress}
+              setEmailAddress={setEmailAddress}
+              age={age}
+              setAge={setAge}
+              password={password}
+              setPassword={setPassword}
+              onSubmit={onSubmit}
+            />
           </div>
         )}
 
@@ -242,7 +356,19 @@ function SignUpPage() {
               </p>
             </div>
 
-            <ParentStepTwoForm />
+            <ParentStepTwoForm
+              firstName={firstName}
+              setFirstName={setFrstName}
+              lastName={lastName}
+              setLastName={setLastName}
+              email={emailAddress}
+              setEmailAddress={setEmailAddress}
+              phone={phone}
+              setPhone={setPhone}
+              password={password}
+              setPassword={setPassword}
+              onSubmit={onSubmit}
+            />
           </div>
         )}
       </div>
@@ -310,7 +436,31 @@ function SignUpPage() {
         {(isStepThree || (isStepTwo && isParent)) && (
           <button
             className="h-12 px-7 py-2 w-32 rounded-lg bg-solyntaBlue text-white"
-            onClick={() => {}}
+            onClick={() => {
+              if (isTeacher) {
+                onSubmit({
+                  higherEducation,
+                  subjectSpecialism,
+                  experienceSince,
+                  firstName,
+                  lastName,
+                  emailAddress,
+                  phone,
+                  password,
+                });
+              } else if (isStudent) {
+                onSubmit({
+                  academicYear,
+                  firstName,
+                  lastName,
+                  emailAddress,
+                  password,
+                  age,
+                });
+              } else {
+                onSubmit({ firstName, lastName, emailAddress, phone, password });
+              }
+            }}
           >
             Confirm
           </button>

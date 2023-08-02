@@ -3,7 +3,7 @@ import { useContext, useEffect, useRef, useState } from "react";
 import { FaPaperPlane, FaPlaneDeparture } from "react-icons/fa";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-// import { io } from "socket.io-client";
+import { io } from "socket.io-client";
 import { UserContext } from "../../Dashboard";
 import Chat from "./Chat";
 import { MdSearch } from "react-icons/md";
@@ -11,7 +11,7 @@ import student from "../../../../../assets/images/student.png";
 import { TbRobot } from "react-icons/tb";
 
 // SOCKET.IO CONFIG
-// const socket = io.connect(`${process.env.NEXT_PUBLIC_APP_SERVER_URL}`);
+const socket = io.connect("http://localhost:3001");
 // const socket = io.connect("https://www.corset-backend.vercel.app");
 
 export default function StudentAiChat(props) {
@@ -24,85 +24,85 @@ export default function StudentAiChat(props) {
   const dataFetchRef = useRef(false);
 
   //   Load all messages from this chat room
-  // async function getMessages() {
-  //   await axios
-  //     .get(
-  //       `${process.env.NEXT_PUBLIC_BASE_URL_API}/messages/${props?.project?.chatRoom}/get-messages`
-  //     )
-  //     .then((res) => {
-  //       console.log("MESSAGES FROM PROJECT CHAT COMP:", res.data);
-  //       setMessages(res.data.data);
-  //     })
-  //     .catch((err) => {
-  //       console.log("ERROR:", err);
-  //     });
-  // }
+  async function getMessages() {
+    await axios
+      .get(`http://localhost:3001/messages/${props?.chatRoom}/get-messages`)
+      .then((res) => {
+        console.log("MESSAGES FROM PROJECT CHAT COMP:", res.data);
+        setMessages(res.data.data);
+      })
+      .catch((err) => {
+        console.log("ERROR:", err);
+      });
+  }
 
   // Connect to Web Socket here to enable chat functionality
-  // function joinChatRoom() {
-  //   socket.emit("join-room", `${props?.project?.chatRoom}`);
-  // }
+  function joinChatRoom() {
+    socket.emit("join-room", `${props?.chatRoom}`);
+  }
   // Use websocket to send message
   async function sendMessage() {
-    //   if (!newMessage.replace(/\s/g, "").length) {
-    //     toast.info("Message box cannot contain only whitespaces");
-    //     return;
-    //   } else {
-    //     socket.emit("send-message", {
-    //       text: newMessage,
-    //       chatRoom: props?.project?.chatRoom,
-    //       sender: user._id,
-    //       modelType: "User",
-    //     });
-    //     //   Get message
-    //     setMessages((message) => {
-    //       console.log("MESSAGE OOOO:", message);
-    //       return [
-    //         ...message,
-    //         {
-    //           message: newMessage,
-    //           chatRoom: props?.project?.chatRoom,
-    //           sender: user,
-    //           modelType: "User",
-    //         },
-    //       ];
-    //     });
-    //     console.log("SEND MESSAGE:", messages);
-    //     //   Reset input field
-    //     setNewMessage("");
-    //   }
+    if (!newMessage.replace(/\s/g, "").length) {
+      toast.info("Message box cannot contain only whitespaces");
+      return;
+    } else {
+      await axios
+        .post(`http://localhost:3001/student/ai-chat`, {message: newMessage})
+        .then((res) => {
+          console.log("MESSAGES FROM PROJECT CHAT COMP:", res.data);
+          setMessages((message) => {
+            console.log("MESSAGE OOOO:", message);
+            return [
+              ...message,
+              {
+                message: newMessage,
+                chatRoom: props?.project?.chatRoom,
+                sender: user,
+                modelType: "User",
+              },
+            ];
+          });
+        })
+        .catch((err) => {
+          console.log("ERROR:", err);
+        });
+
+      console.log("SEND MESSAGE:", messages);
+      //   Reset input field
+      setNewMessage("");
+    }
   }
 
   useEffect(() => {
-    // getMessages();
-    // joinChatRoom();
+    getMessages();
+    joinChatRoom();
   }, []);
 
-  // async function updateMessages(data) {
-  //   setMessages((message) => [
-  //     ...message,
-  //     {
-  //       _id: data._id,
-  //       message: data.message,
-  //       sender: {
-  //         _id: data.sender._id,
-  //         firstName: data.sender.firstName,
-  //         lastName: data.sender.lastName,
-  //         email: data.sender.email,
-  //       },
-  //     },
-  //   ]);
-  //   return;
-  // }
+  async function updateMessages(data) {
+    setMessages((message) => [
+      ...message,
+      {
+        _id: data._id,
+        message: data.message,
+        sender: {
+          _id: data.sender._id,
+          firstName: data.sender.firstName,
+          lastName: data.sender.lastName,
+          email: data.sender.email,
+        },
+      },
+    ]);
+    return;
+  }
 
   //   Listen to changes on socket server
-  // useEffect(() => {
-  //   socket.on("receive-message", async (data) => {
-  //     if (dataFetchRef.current) return;
-  //     dataFetchRef.current = true;
-  //     updateMessages(data);
-  //   });
-  // },[socket]);
+  useEffect(() => {
+    socket.on("receive-message", async (data) => {
+      if (dataFetchRef.current) return;
+      dataFetchRef.current = true;
+      updateMessages(data);
+    });
+  }, [socket]);
 
   //   Listen to changes on socket server
 

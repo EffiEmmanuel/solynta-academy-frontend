@@ -4,29 +4,23 @@ import { Link, useNavigate } from "react-router-dom";
 import ParentStepTwoFormSchema from "./validation";
 import { useFormik } from "formik";
 
-function ParentStepTwoForm() {
+function ParentStepTwoForm({
+  firstName,
+  lastName,
+  email,
+  phone,
+  password,
+  setFirstName,
+  setLastName,
+  setEmailAddress,
+  setPhone,
+  setPassword,
+  onSubmit,
+}) {
   const [isLoading, setIsLoading] = useState(false);
   const Router = useNavigate();
   // Terms agreement state
   const [agreeToTerms, setAgreeToTerms] = useState();
-
-  const onSubmit = async (values, actions) => {
-    setIsLoading(true);
-
-    if (!agreeToTerms) return;
-    // TO-DO: Send API request to server
-    await axios
-      .post("", {
-        firstName: values.firstName,
-        lastName: values.lastName,
-        email: values.email,
-        phone: values.phone,
-        password: values.password,
-        confirmPassword: values.confirmPassword,
-      })
-      .then((res) => {})
-      .catch((err) => {});
-  };
 
   const { values, errors, handleChange, handleSubmit } = useFormik({
     initialValues: {
@@ -45,7 +39,10 @@ function ParentStepTwoForm() {
     <form className="flex flex-col gap-y-10 mt-10">
       <div className="flex lg:flex-row flex-col items-center justify-between gap-x-6">
         <div className="w-full relative my-2">
-          <label htmlFor="firstName" className="text-sm absolute left-0 text-solyntaBlue font-semibold">
+          <label
+            htmlFor="firstName"
+            className="text-sm absolute left-0 text-solyntaBlue font-semibold"
+          >
             First Name
           </label>
           <input
@@ -53,18 +50,19 @@ function ParentStepTwoForm() {
             id="firstName"
             type="text"
             name="firstName"
-            value={values.firstName}
-            onChange={handleChange}
+            value={firstName}
+            onChange={(e) => setFirstName(e.target.value)}
             placeholder="First Name"
           />
 
-          <p className="text-left mt-3 text-xs">
-            {errors.firstName ? errors.firstName : ""}
-          </p>
+          <p className="text-left mt-3 text-xs"></p>
         </div>
 
         <div className="w-full relative my-2">
-          <label htmlFor="lastName" className="text-sm absolute left-0 text-solyntaBlue font-semibold">
+          <label
+            htmlFor="lastName"
+            className="text-sm absolute left-0 text-solyntaBlue font-semibold"
+          >
             Last Name
           </label>
           <input
@@ -72,19 +70,20 @@ function ParentStepTwoForm() {
             id="lastName"
             type="text"
             name="lastName"
-            value={values.lastName}
-            onChange={handleChange}
+            value={lastName}
+            onChange={(e) => setLastName(e.target.value)}
             placeholder="Last Name"
           />
 
-          <p className="text-left mt-3 text-xs">
-            {errors.lastName ? errors.lastName : ""}
-          </p>
+          <p className="text-left mt-3 text-xs"></p>
         </div>
       </div>
       <div className="flex items-center justify-between gap-x-6 lg:flex-row flex-col">
         <div className="w-full relative my-2">
-          <label htmlFor="email" className="text-sm absolute left-0 text-solyntaBlue font-semibold">
+          <label
+            htmlFor="email"
+            className="text-sm absolute left-0 text-solyntaBlue font-semibold"
+          >
             Email Address
           </label>
           <input
@@ -92,18 +91,19 @@ function ParentStepTwoForm() {
             id="email"
             type="email"
             name="email"
-            value={values.email}
-            onChange={handleChange}
+            value={email}
+            onChange={(e) => setEmailAddress(e.target.value)}
             placeholder="Email Address"
           />
 
-          <p className="text-left mt-3 text-xs">
-            {errors.email ? errors.email : ""}
-          </p>
+          <p className="text-left mt-3 text-xs"></p>
         </div>
 
         <div className="w-full relative my-2">
-          <label htmlFor="phone" className="text-sm absolute left-0 text-solyntaBlue font-semibold">
+          <label
+            htmlFor="phone"
+            className="text-sm absolute left-0 text-solyntaBlue font-semibold"
+          >
             Mobile Phone
           </label>
           <input
@@ -111,19 +111,20 @@ function ParentStepTwoForm() {
             id="phone"
             type="tel"
             name="phone"
-            value={values.phone}
-            onChange={handleChange}
+            value={phone}
+            onChange={(e) => setPhone(e.target.value)}
             placeholder="Mobile Phone"
           />
 
-          <p className="text-left mt-3 text-xs">
-            {errors.phone ? errors.phone : ""}
-          </p>
+          <p className="text-left mt-3 text-xs"></p>
         </div>
       </div>
       <div className="flex items-center justify-between gap-x-6 lg:flex-row flex-col">
         <div className="w-full relative my-2">
-          <label htmlFor="password" className="text-sm absolute left-0 text-solyntaBlue font-semibold">
+          <label
+            htmlFor="password"
+            className="text-sm absolute left-0 text-solyntaBlue font-semibold"
+          >
             Password
           </label>
           <input
@@ -131,18 +132,19 @@ function ParentStepTwoForm() {
             id="password"
             type="password"
             name="password"
-            value={values.password}
-            onChange={handleChange}
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
             placeholder="********"
           />
 
-          <p className="text-left mt-3 text-xs">
-            {errors.password ? errors.password : ""}
-          </p>
+          <p className="text-left mt-3 text-xs"></p>
         </div>
 
         <div className="w-full relative my-2">
-          <label htmlFor="confirmPassword" className="text-sm absolute left-0 text-solyntaBlue font-semibold">
+          <label
+            htmlFor="confirmPassword"
+            className="text-sm absolute left-0 text-solyntaBlue font-semibold"
+          >
             Confirm Password
           </label>
           <input
@@ -155,9 +157,7 @@ function ParentStepTwoForm() {
             placeholder="********"
           />
 
-          <p className="text-left mt-3 text-xs">
-            {errors.confirmPassword ? errors.confirmPassword : ""}
-          </p>
+          <p className="text-left mt-3 text-xs"></p>
         </div>
       </div>
 

@@ -8,7 +8,7 @@ import escience from "../../../../../assets/images/escience.png";
 import { BsArrowRight, BsRepeat } from "react-icons/bs";
 
 export default function StudentMyLessons() {
-  const { user, projects } = useContext(UserContext);
+  const { user, lessons } = useContext(UserContext);
 
   return (
     <>
@@ -25,7 +25,22 @@ export default function StudentMyLessons() {
                 <AiOutlineLeft size={32} color="#000" className="" />
               </div>
               <div className="flex w-full gap-x-5 items-center overflow-x-scroll max-w-full overflow-y-hidden">
-                <div className="h-[120px] w-[200px] min-w-[200px]">
+                {lessons?.map((lesson) => (
+                  <div className="h-[120px] w-[200px] min-w-[200px]">
+                    <img
+                      src={lesson?.image}
+                      alt=""
+                      className="h-[100px] max-h-[100px] min-h-[80px] w-[200px] object-cover rounded-lg"
+                    />
+
+                    <div className="">
+                      <p className="font-semibold text-sm mt-2 text-black">
+                        lesson?.title
+                      </p>
+                    </div>
+                  </div>
+                ))}
+                {/* <div className="h-[120px] w-[200px] min-w-[200px]">
                   <img
                     src={escience}
                     alt=""
@@ -128,25 +143,18 @@ export default function StudentMyLessons() {
                       Introduction to Environmental Science
                     </p>
                   </div>
-                </div>
-                <div className="h-[120px] w-[200px] min-w-[200px]">
-                  <img
-                    src={escience}
-                    alt=""
-                    className="h-[100px] max-h-[100px] min-h-[80px] w-[200px] object-cover rounded-lg"
-                  />
-
-                  <div className="">
-                    <p className="font-semibold text-sm mt-2 text-black">
-                      Introduction to Environmental Science
-                    </p>
-                  </div>
-                </div>
+                </div> */}
               </div>
               <div className="">
                 <AiOutlineRight size={32} color="#000" className="" />
               </div>
             </div>
+
+            {!lessons && (
+              <div className="flex items-center justify-center">
+                <p className="text-black">You have no lessons for now</p>
+              </div>
+            )}
           </div>
         </div>
 

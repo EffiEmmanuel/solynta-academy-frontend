@@ -21,7 +21,7 @@ ChartJS.defaults.borderColor = "#E5E7EB";
 ChartJS.defaults.color = "#000";
 
 export default function TeacherDashboardHome() {
-  const { user, projects } = useContext(UserContext);
+  const { user, classes } = useContext(UserContext);
 
   // Bar Chart Setup
   const data = {
