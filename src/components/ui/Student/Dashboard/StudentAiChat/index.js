@@ -142,7 +142,7 @@ export default function StudentAiChat(props) {
                 onChange={(e) => setNewMessage(e.target.value)}
                 className="w-full h-full border-gray-400  px-8 text-black text-sm rounded-lg rounded-bl-lg focus:outline-none"
               />
-              <button type="submit" onClick={sendMessage}>
+              <button type="submit" onClick={() => {}}>
                 <FaPaperPlane className="text-lg my-auto self-center" />
               </button>
             </div>
