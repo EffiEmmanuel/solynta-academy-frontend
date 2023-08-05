@@ -11,11 +11,11 @@ import StudentStepTwoForm from "../../../forms/SignUpForms/Student/StudentStepTw
 import StudentStepThreeForm from "../../../forms/SignUpForms/Student/StudentStepThreeForm";
 import ParentStepTwoForm from "../../../forms/SignUpForms/Parent/ParentStepTwoForm";
 import axios from "axios";
-import { ToastContainer, toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 function SignUpPage() {
-  const navigate = useNavigate()
+  const navigate = useNavigate();
   const stepsAndPages = [{ 1: {} }];
 
   const [isStepOne, setIsStepOne] = useState(true);
@@ -54,7 +54,7 @@ function SignUpPage() {
   const [age, setAge] = useState("");
 
   const onSubmit = async (values) => {
-    console.log('AALL VALUES', values);
+    console.log("AALL VALUES", values);
     // TO-DO: Send API request to server
     if (isTeacher) {
       await axios
@@ -64,15 +64,15 @@ function SignUpPage() {
         })
         .then((res) => {
           console.log(res);
-          if(res.data.success) {
-            toast('Your account was created successfully!', 'success');
+          if (res.data.success) {
+            toast("Your account was created successfully!", "success");
             setTimeout(() => {
-              navigate('/auth/login');
+              navigate("/auth/login");
             }, 1500);
           }
         })
         .catch((err) => {
-          toast(err.response?.data?.message, 'error');
+          toast(err.response?.data?.message, "error");
           console.log(err);
         });
     } else if (isStudent) {
@@ -83,16 +83,16 @@ function SignUpPage() {
         })
         .then((res) => {
           console.log(res);
-          if(res.data.success) {
-            toast('Your account was created successfully!', 'success');
+          if (res.data.success) {
+            toast("Your account was created successfully!", "success");
             setTimeout(() => {
-              navigate('/auth/login');
+              navigate("/auth/login");
             }, 1500);
           }
         })
         .catch((err) => {
           console.log(err);
-          toast(err.response?.data?.message, 'error');
+          toast(err.response?.data?.message, "error");
         });
     } else {
       await axios
@@ -101,22 +101,22 @@ function SignUpPage() {
           confirmPassword: password,
         })
         .then((res) => {
-          if(res.data.success) {
-            toast('Your account was created successfully!', 'success');
+          if (res.data.success) {
+            toast("Your account was created successfully!", "success");
             setTimeout(() => {
-              navigate('/auth/login');
+              navigate("/auth/login");
             }, 1500);
           }
         })
         .catch((err) => {
           console.log(err);
-          toast(err.response?.data?.message, 'error');
+          toast(err.response?.data?.message, "error");
         });
     }
   };
   return (
     <div className="py-10 lg:px-20 px-10 bg-[#F4F6FA]">
-    <ToastContainer />
+      <ToastContainer />
       <div className="mx-auto text-center flex flex-col items-center">
         {/* Logo */}
         <img src={solyntaLogo} alt="Solynta Academy" className="w-[80px]" />
@@ -265,7 +265,7 @@ function SignUpPage() {
               setHigherEducation={setHigherEducation}
               subjectSpecialism={subjectSpecialism}
               setSubjectSpecialism={setSubjectSpecialism}
-              experienceSince={setExperienceSince}
+              experienceSince={experienceSince}
               setExperienceSince={setExperienceSince}
             />
           </div>
@@ -458,7 +458,13 @@ function SignUpPage() {
                   age,
                 });
               } else {
-                onSubmit({ firstName, lastName, emailAddress, phone, password });
+                onSubmit({
+                  firstName,
+                  lastName,
+                  emailAddress,
+                  phone,
+                  password,
+                });
               }
             }}
           >

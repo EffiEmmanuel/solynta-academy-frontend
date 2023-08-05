@@ -1,4 +1,4 @@
-import { useContext } from "react";
+import { useContext, useEffect, useState } from "react";
 import { UserContext } from "../../Dashboard";
 import {
   Chart as ChartJS,
@@ -19,6 +19,7 @@ import video from "../../../../../assets/images/video.png";
 import escience from "../../../../../assets/images/escience.png";
 import { AiOutlineLeft, AiOutlineRight } from "react-icons/ai";
 import { CircularProgressbar, buildStyles } from "react-circular-progressbar";
+import axios from "axios";
 
 // Register ChartJS
 ChartJS.register(BarElement, CategoryScale, LinearScale, Tooltip, Legend);
@@ -26,7 +27,24 @@ ChartJS.defaults.borderColor = "#E5E7EB";
 ChartJS.defaults.color = "#000";
 
 export default function StudentProgressTracking() {
-  const { user, projects } = useContext(UserContext);
+  const { user, classes, lessons } = useContext(UserContext);
+
+  //   Get scores - Example and template for bar chart
+  const [scores, setScores] = useState();
+  async function getScores() {
+    await axios
+      .get("http://localhost:3001/student/get-classes")
+      .then((res) => {
+        setScores(res.data.Data);
+      })
+      .catch((err) => {
+        console.log("ERROR:", err);
+      });
+  }
+
+  useEffect(() => {
+    getScores();
+  }, []);
 
   // Bar Chart Setup
   const data = {
@@ -34,11 +52,11 @@ export default function StudentProgressTracking() {
     datasets: [
       {
         label: "",
-        data: [20, 10, 20, 40, 30, 60],
+        data: scores, //Assuming scores come in this array format from the backend - [20, 10, 40, 50, 60, 65]
         backgroundColor: "#FFD60C",
         borderWidth: 0.5,
         barThickness: 10,
-        borderRadius: 200
+        borderRadius: 200,
       },
     ],
   };
@@ -56,7 +74,71 @@ export default function StudentProgressTracking() {
                 <AiOutlineLeft size={32} color="#000" className="" />
               </div>
               <div className="flex w-full gap-x-5 items-center overflow-x-scroll max-w-full overflow-y-hidden">
-                <div className="bg-white rounded-lg p-4 h-[170px] w-[350px] min-w-[350px]">
+                {lessons?.map((lesson) => (
+                  <div className="bg-white rounded-lg p-4 h-[170px] w-[350px] min-w-[350px]">
+                    <p className="text-center text-solyntaBlue font-semibold">
+                      {lesson?.title}
+                    </p>
+
+                    <div className="flex items-center justify-center mt-5">
+                      <img
+                        src={lesson?.image}
+                        alt=""
+                        className="h-[100px] max-h-[100px] min-h-[80px] w-[200px] object-cover rounded-lg"
+                      />
+                      <div className="relative flex justify-center w-1/2 gap-y-5">
+                        <CircularProgressbar
+                          value={100}
+                          maxValue={100}
+                          minValue={0}
+                          strokeWidth={5}
+                          className="w-[100px]"
+                          // text={`100%`}
+                          // counterClockwise={true}
+                          styles={buildStyles({
+                            display: "flex",
+                            fleexDirection: "column",
+                            justifyContent: "center",
+                            // Rotation of path and trail, in number of turns (0-1)
+
+                            // Whether to use rounded or flat corners on the ends - can use 'butt' or 'round'
+                            strokeLinecap: "round",
+
+                            // Text size
+                            textSize: "24px",
+
+                            // How long animation takes to go from one percentage to another, in seconds
+                            pathTransitionDuration: 0.5,
+
+                            // Can specify path transition in more detail, or remove it entirely
+                            // pathTransition: 'none',
+
+                            // Colors
+                            pathColor: `rgba(0, 255, 0, ${100 / 100})`,
+                            textColor: "#f88",
+                            trailColor: "#fff",
+                            backgroundColor: "#3e98c7",
+
+                            text: {
+                              // Text color
+                              fill: "#f88",
+                              margin: "0 20px 0 0",
+                              // Text size
+                              // fontSize: "16px",
+                            },
+                          })}
+                        />
+                      </div>
+                    </div>
+                  </div>
+                ))}
+
+                {(!lessons || lessons?.length == 0) && (
+                  <div className="bg-white text-black text-center rounded-lg p-4 h-[170px] w-[350px] min-w-[350px]">
+                    <p>You have no lessons to show for now</p>
+                  </div>
+                )}
+                {/* <div className="bg-white rounded-lg p-4 h-[170px] w-[350px] min-w-[350px]">
                   <p className="text-center text-solyntaBlue font-semibold">
                     Introduction to Environmental Science
                   </p>
@@ -279,63 +361,7 @@ export default function StudentProgressTracking() {
                       />
                     </div>
                   </div>
-                </div>
-                <div className="bg-white rounded-lg p-4 h-[170px] w-[350px] min-w-[350px]">
-                  <p className="text-center text-solyntaBlue font-semibold">
-                    Introduction to Environmental Science
-                  </p>
-
-                  <div className="flex items-center justify-center mt-5">
-                    <img
-                      src={escience}
-                      alt=""
-                      className="h-[100px] max-h-[100px] min-h-[80px] w-[200px] object-cover rounded-lg"
-                    />
-                    <div className="relative flex justify-center w-1/2 gap-y-5">
-                      <CircularProgressbar
-                        value={100}
-                        maxValue={100}
-                        minValue={0}
-                        strokeWidth={5}
-                        className="w-[100px]"
-                        // text={`100%`}
-                        // counterClockwise={true}
-                        styles={buildStyles({
-                          display: "flex",
-                          fleexDirection: "column",
-                          justifyContent: "center",
-                          // Rotation of path and trail, in number of turns (0-1)
-
-                          // Whether to use rounded or flat corners on the ends - can use 'butt' or 'round'
-                          strokeLinecap: "round",
-
-                          // Text size
-                          textSize: "24px",
-
-                          // How long animation takes to go from one percentage to another, in seconds
-                          pathTransitionDuration: 0.5,
-
-                          // Can specify path transition in more detail, or remove it entirely
-                          // pathTransition: 'none',
-
-                          // Colors
-                          pathColor: `rgba(0, 255, 0, ${100 / 100})`,
-                          textColor: "#f88",
-                          trailColor: "#fff",
-                          backgroundColor: "#3e98c7",
-
-                          text: {
-                            // Text color
-                            fill: "#f88",
-                            margin: "0 20px 0 0",
-                            // Text size
-                            // fontSize: "16px",
-                          },
-                        })}
-                      />
-                    </div>
-                  </div>
-                </div>
+                </div> */}
               </div>
               <div className="">
                 <AiOutlineRight size={32} color="#000" className="" />
@@ -366,17 +392,33 @@ export default function StudentProgressTracking() {
 
           <div className="">
             {/* Assessment Card */}
-            <div className="flex items-start justify-between my-7">
-              <small className="text-black w-1/4">Pre-Assessment</small>
-              <small className="text-black w-1/4">85%</small>
-              <small className="text-black w-1/4">85%</small>
-              <small className="text-green-500 w-1/4">
-                Shows a solid understanding of the pre-assessment topics.
-                Student B has performed exceptionally w...
-              </small>
-            </div>
+            {classes?.map((myClass) => (
+              <div className="flex items-start justify-between my-7">
+                <small className="text-black w-1/4">
+                  {myClass?.assignment?.title}
+                </small>
+                <small className="text-black w-1/4">
+                  {myClass?.assignment?.score}
+                </small>
+                <small className="text-black w-1/4">
+                  {myClass?.assignment?.score}
+                </small>
+                <small className="text-green-500 w-1/4">
+                  {myClass?.assignment?.feedback}
+                </small>
+              </div>
+            ))}
+            {/* {classes?.map((myClass) => ( */}
+            <>
+              {classes?.length == 0 && (
+                <small className="text-black w-1/4">
+                  You do not have any due assignments
+                </small>
+              )}
+            </>
+            {/* ))} */}
             {/* Assessment Card */}
-            <div className="flex items-start justify-between my-7">
+            {/* <div className="flex items-start justify-between my-7">
               <small className="text-black w-1/4">Spelling Test</small>
               <small className="text-black w-1/4">85%</small>
               <small className="text-black w-1/4">85%</small>
@@ -384,9 +426,9 @@ export default function StudentProgressTracking() {
                 Shows a solid understanding of the pre-assessment topics.
                 Student B has performed exceptionally w...
               </small>
-            </div>
+            </div> */}
             {/* Assessment Card */}
-            <div className="flex items-start justify-between my-7">
+            {/* <div className="flex items-start justify-between my-7">
               <small className="text-black w-1/4">
                 Reading Fluency Assessment
               </small>
@@ -396,9 +438,9 @@ export default function StudentProgressTracking() {
                 Shows a solid understanding of the pre-assessment topics.
                 Student B has performed exceptionally w...
               </small>
-            </div>
+            </div> */}
             {/* Assessment Card */}
-            <div className="flex items-start justify-between my-7">
+            {/* <div className="flex items-start justify-between my-7">
               <small className="text-black w-1/4">Vocabulary Quiz</small>
               <small className="text-black w-1/4">85%</small>
               <small className="text-black w-1/4">85%</small>
@@ -406,9 +448,9 @@ export default function StudentProgressTracking() {
                 Shows a solid understanding of the pre-assessment topics.
                 Student B has performed exceptionally w...
               </small>
-            </div>
+            </div> */}
             {/* Assessment Card */}
-            <div className="flex items-start justify-between my-7">
+            {/* <div className="flex items-start justify-between my-7">
               <small className="text-black w-1/4">Problem-Solving Task</small>
               <small className="text-black w-1/4">85%</small>
               <small className="text-black w-1/4">85%</small>
@@ -416,7 +458,7 @@ export default function StudentProgressTracking() {
                 Shows a solid understanding of the pre-assessment topics.
                 Student B has performed exceptionally w...
               </small>
-            </div>
+            </div> */}
           </div>
         </div>
 
@@ -457,78 +499,48 @@ export default function StudentProgressTracking() {
             </select>
 
             <div className="flex flex-col gap-y-5">
-              <div className="">
+              {classes?.map((myClass) => (
+                <>
+                  {myClass?.assignments?.map((assignment) => {
+                    if (assignment?.score) {
+                      return (
+                        <div className="">
+                          <p className="text-solyntaBlue font-semibold">
+                            {assignment?.title}
+                          </p>
+
+                          <div className="mt-2">
+                            <div className="">
+                              <div className="flex items-start gap-x-3 my-1">
+                                <div className="h-[5px] w-[5px] min-w-[5px] max-w-[5px] min-h-[5px] max-h-[5px] bg-solyntaYellow rounded-full"></div>
+                                <small className="text-black font-semibold -mt-1">
+                                  {assignment?.feedback}
+                                </small>
+                              </div>
+
+                              <div className="flex items-center gap-x-3 ml-4">
+                                <MdCalendarToday
+                                  size={16}
+                                  className="text-gray-500"
+                                />
+                                <small className="text-gray-500">
+                                  {assignment?.deadline}
+                                </small>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      );
+                    }
+                  })}
+                </>
+              ))}
+
+              {classes?.length == 0 && (
                 <p className="text-solyntaBlue font-semibold">
-                  Title Of The Assignment
+                  You have not joined any classes yet
                 </p>
-
-                <div className="mt-2">
-                  <div className="">
-                    <div className="flex items-start gap-x-3 my-1">
-                      <div className="h-[5px] w-[5px] min-w-[5px] max-w-[5px] min-h-[5px] max-h-[5px] bg-solyntaYellow rounded-full"></div>
-                      <small className="text-black font-semibold -mt-1">
-                        Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                        In efficitur ante non sapien pulvinar porttitor. Nam in
-                        hendrerit sapien. Nam sem erat, vulputate et . Lorem
-                        ipsum dolor sit amet, consectetur adipiscing elit.
-                      </small>
-                    </div>
-
-                    <div className="flex items-center gap-x-3 ml-4">
-                      <MdCalendarToday size={16} className="text-gray-500" />
-                      <small className="text-gray-500">02/02/2023</small>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div className="">
-                <p className="text-solyntaBlue font-semibold">
-                  Title Of The Assignment
-                </p>
-
-                <div className="mt-2">
-                  <div className="">
-                    <div className="flex items-start gap-x-3 my-1">
-                      <div className="h-[5px] w-[5px] min-w-[5px] max-w-[5px] min-h-[5px] max-h-[5px] bg-solyntaYellow rounded-full"></div>
-                      <small className="text-black font-semibold -mt-1">
-                        Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                        In efficitur ante non sapien pulvinar porttitor. Nam in
-                        hendrerit sapien. Nam sem erat, vulputate et . Lorem
-                        ipsum dolor sit amet, consectetur adipiscing elit.
-                      </small>
-                    </div>
-
-                    <div className="flex items-center gap-x-3 ml-4">
-                      <MdCalendarToday size={16} className="text-gray-500" />
-                      <small className="text-gray-500">02/02/2023</small>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div className="">
-                <p className="text-solyntaBlue font-semibold">
-                  Title Of The Assignment
-                </p>
-
-                <div className="mt-2">
-                  <div className="">
-                    <div className="flex items-start gap-x-3 my-1">
-                      <div className="h-[5px] w-[5px] min-w-[5px] max-w-[5px] min-h-[5px] max-h-[5px] bg-solyntaYellow rounded-full"></div>
-                      <small className="text-black font-semibold -mt-1">
-                        Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                        In efficitur ante non sapien pulvinar porttitor. Nam in
-                        hendrerit sapien. Nam sem erat, vulputate et . Lorem
-                        ipsum dolor sit amet, consectetur adipiscing elit.
-                      </small>
-                    </div>
-
-                    <div className="flex items-center gap-x-3 ml-4">
-                      <MdCalendarToday size={16} className="text-gray-500" />
-                      <small className="text-gray-500">02/02/2023</small>
-                    </div>
-                  </div>
-                </div>
-              </div>
+              )}
             </div>
           </div>
         </div>

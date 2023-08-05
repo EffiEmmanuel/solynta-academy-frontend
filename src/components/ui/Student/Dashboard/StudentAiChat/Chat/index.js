@@ -21,8 +21,7 @@ export default function Chat(props) {
                 message?.sender?._id === props.role?._id ? true : false
               }
               message={message}
-              project={props?.project}
-              isEngineer={props?.isEngineer}
+              isAi={message?.isAi}
             />
           </div>
         ))}

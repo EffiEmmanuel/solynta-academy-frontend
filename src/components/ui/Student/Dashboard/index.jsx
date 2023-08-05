@@ -12,6 +12,9 @@ export const UserContext = createContext();
 function StudentDashboard(props) {
   const [user, setUser] = useState();
   const [classes, setClasses] = useState();
+  const [absences, setAbsences] = useState();
+  const [courses, setCourses] = useState();
+  const [lessons, setLessons] = useState();
 
   //   Current page
   const [currentPage, setCurrectPage] = useState("home");
@@ -71,12 +74,48 @@ function StudentDashboard(props) {
     validateSession();
   }, []);
   async function fetchClasses() {
-    console.log('USERID:', user?._id)
+    console.log("USERID:", user?._id);
     await axios
       .get("http://localhost:3001/student/get-classes/" + user?._id)
       .then((res) => {
         console.log("CLASSES:", res);
-        setClasses(res.data.Data)
+        setClasses(res.data.Data);
+      })
+      .catch((err) => {
+        console.log("ERROR:", err);
+      });
+  }
+  async function fetchAbsences() {
+    console.log("USERID:", user?._id);
+    await axios
+      .get("http://localhost:3001/student/get-absences/" + user?._id)
+      .then((res) => {
+        console.log("ABSENCES:", res);
+        setAbsences(res.data.Data);
+      })
+      .catch((err) => {
+        console.log("ERROR:", err);
+      });
+  }
+  async function fetchCourses() {
+    console.log("USERID:", user?._id);
+    await axios
+      .get("http://localhost:3001/student/get-courses/" + user?._id)
+      .then((res) => {
+        console.log("COURSES:", res);
+        setCourses(res.data.Data);
+      })
+      .catch((err) => {
+        console.log("ERROR:", err);
+      });
+  }
+  async function fetchLessons() {
+    console.log("USERID:", user?._id);
+    await axios
+      .get("http://localhost:3001/student/get-lessons/")
+      .then((res) => {
+        console.log("LESSONS:", res);
+        setLessons(res.data.Data);
       })
       .catch((err) => {
         console.log("ERROR:", err);
@@ -85,11 +124,23 @@ function StudentDashboard(props) {
 
   useEffect(() => {
     fetchClasses();
+    fetchAbsences();
+    fetchCourses();
+    fetchLessons();
   }, [user]);
 
   return (
     <UserContext.Provider
-      value={{ user, classes, setClasses, currentPage, setTheCurrentPage }}
+      value={{
+        user,
+        classes,
+        setClasses,
+        currentPage,
+        setTheCurrentPage,
+        absences,
+        courses,
+        lessons,
+      }}
     >
       <ToastContainer />
       <DashboardNavbar page={props?.page} />

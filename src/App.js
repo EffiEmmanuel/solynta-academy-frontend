@@ -47,7 +47,7 @@ function App() {
           <Route
             path=""
             element={
-              <ProtectedRoute>
+              <ProtectedRoute role="teacher">
                 <TeacherDashboardOverview />
               </ProtectedRoute>
             }
@@ -55,7 +55,7 @@ function App() {
           <Route
             path="student-monitoring"
             element={
-              <ProtectedRoute>
+              <ProtectedRoute role="teacher">
                 <StudentMonitoringPage />
               </ProtectedRoute>
             }
@@ -63,7 +63,7 @@ function App() {
           <Route
             path="communication-tools"
             element={
-              <ProtectedRoute>
+              <ProtectedRoute role="teacher">
                 <CommunicationToolsPage />
               </ProtectedRoute>
             }
@@ -71,7 +71,7 @@ function App() {
           <Route
             path="resource-library"
             element={
-              <ProtectedRoute>
+              <ProtectedRoute role="teacher">
                 <ResourceLibraryPage />
               </ProtectedRoute>
             }
@@ -83,7 +83,7 @@ function App() {
           <Route
             path=""
             element={
-              <ProtectedRoute>
+              <ProtectedRoute role="student">
                 <StudentDashboardOverview />
               </ProtectedRoute>
             }
@@ -91,7 +91,7 @@ function App() {
           <Route
             path="courses"
             element={
-              <ProtectedRoute>
+              <ProtectedRoute role="student">
                 <Courses />
               </ProtectedRoute>
             }
@@ -99,7 +99,7 @@ function App() {
           <Route
             path="lessons"
             element={
-              <ProtectedRoute>
+              <ProtectedRoute role="student">
                 <StudentLessonsPage />
               </ProtectedRoute>
             }
@@ -107,7 +107,7 @@ function App() {
           <Route
             path="progress-tracking"
             element={
-              <ProtectedRoute>
+              <ProtectedRoute role="student">
                 <StudentProgressTrackingPage />
               </ProtectedRoute>
             }
@@ -115,7 +115,7 @@ function App() {
           <Route
             path="communication-tools"
             element={
-              <ProtectedRoute>
+              <ProtectedRoute role="student">
                 <StudentCommunicationToolsPage />
               </ProtectedRoute>
             }
@@ -127,7 +127,7 @@ function App() {
           <Route
             path=""
             element={
-              <ProtectedRoute>
+              <ProtectedRoute role="parent">
                 <ParentDashboardOverview />
               </ProtectedRoute>
             }
@@ -135,7 +135,7 @@ function App() {
           <Route
             path="childs-performance"
             element={
-              <ProtectedRoute>
+              <ProtectedRoute role="parent">
                 <ChildPerformancePage />
               </ProtectedRoute>
             }
@@ -143,7 +143,7 @@ function App() {
           <Route
             path="teachers-notes"
             element={
-              <ProtectedRoute>
+              <ProtectedRoute role="parent">
                 <TeachersNotesPage />
               </ProtectedRoute>
             }
@@ -151,7 +151,7 @@ function App() {
           <Route
             path="communication-tools"
             element={
-              <ProtectedRoute>
+              <ProtectedRoute role="parent">
                 <ParentCommunicationToolsPage />
               </ProtectedRoute>
             }

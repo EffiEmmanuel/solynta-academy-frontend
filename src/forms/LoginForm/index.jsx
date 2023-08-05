@@ -35,7 +35,7 @@ function LoginForm() {
           }, 1500);
         })
         .catch((err) => {
-          toast(err?.response?.data?.message, 'error')
+          toast(err?.response?.data?.message, "error");
         });
     } else if (role === "teacher") {
       await axios
@@ -47,14 +47,14 @@ function LoginForm() {
           console.log("response:", res);
           toast("Logged in successfully!", "success");
           localStorage.setItem("token", res.data.Data);
-          localStorage.setItem("student", JSON.stringify(res.data.teacher));
+          localStorage.setItem("teacher", JSON.stringify(res.data.teacher));
           setTimeout(() => {
             Router("/teacher/dashboard");
           }, 1500);
         })
         .catch((err) => {
-          console.log('ERROR:', err)
-          toast(err?.response?.data?.message, 'error')
+          console.log("ERROR:", err);
+          toast(err?.response?.data?.message, "error");
         });
     } else {
       await axios
@@ -66,13 +66,13 @@ function LoginForm() {
           console.log("response:", res);
           toast("Logged in successfully!", "success");
           localStorage.setItem("token", res.data.Data);
-          localStorage.setItem("student", JSON.stringify(res.data.parent));
+          localStorage.setItem("parent", JSON.stringify(res.data.parent));
           setTimeout(() => {
             Router("/parent/dashboard");
           }, 1500);
         })
         .catch((err) => {
-          toast(err?.response?.data?.message, 'error')
+          toast(err?.response?.data?.message, "error");
         });
     }
   };

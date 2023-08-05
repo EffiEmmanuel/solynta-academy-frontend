@@ -28,14 +28,14 @@ function Dashboard(props) {
   useEffect(() => {
     async function validateSession() {
       const token = localStorage.getItem("token");
-      const user = JSON.parse(localStorage.getItem("student"));
+      const user = JSON.parse(localStorage.getItem("teacher"));
       if (!token) {
         Router("/login");
         //   setIsLoading(false);
         return toast.error("You must be logged in.");
       }
 
-      if(user) {
+      if (user) {
         setUser(user);
       }
 

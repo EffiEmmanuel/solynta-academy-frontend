@@ -35,7 +35,7 @@ export default function StudentMyLessons() {
 
                     <div className="">
                       <p className="font-semibold text-sm mt-2 text-black">
-                        lesson?.title
+                        {lesson?.title}
                       </p>
                     </div>
                   </div>
@@ -150,7 +150,7 @@ export default function StudentMyLessons() {
               </div>
             </div>
 
-            {!lessons && (
+            {(!lessons || lessons?.length == 0) && (
               <div className="flex items-center justify-center">
                 <p className="text-black">You have no lessons for now</p>
               </div>
@@ -159,7 +159,7 @@ export default function StudentMyLessons() {
         </div>
 
         <h3 className="mt-16 mb-5 text-xl font-semibold">
-          Introduction to Environmental Science
+          {/* Introduction to Environmental Science */}
         </h3>
 
         {/* AI CHAT */}

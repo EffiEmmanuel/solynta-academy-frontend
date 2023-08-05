@@ -1,4 +1,4 @@
-import { useContext } from "react";
+import { useContext, useState } from "react";
 import { UserContext } from "../../Dashboard";
 import {
   Chart as ChartJS,
@@ -25,8 +25,25 @@ ChartJS.defaults.borderColor = "#E5E7EB";
 ChartJS.defaults.color = "#000";
 
 export default function StudentDashboardHome() {
-  const { user, classes, assignments, lessons, instructors } =
-    useContext(UserContext);
+  const { user, classes, lessons, absences } = useContext(UserContext);
+
+  // Assignments
+  const [assignments, setAssignments] = useState([]);
+  classes?.forEach((myClass) => {
+    if (myClass?.assignment) {
+      const updatedAssignments = assignments?.push(myClass?.assignment);
+      setAssignments(updatedAssignments);
+    }
+  });
+
+  // instructors
+  const [instructors, setInstructors] = useState([]);
+  classes?.forEach((myClass) => {
+    if (myClass?.teacherId) {
+      const updatedInstructors = instructors?.push(myClass?.teacherId);
+      setInstructors(updatedInstructors);
+    }
+  });
 
   // Bar Chart Setup
   const data = {
@@ -65,7 +82,7 @@ export default function StudentDashboardHome() {
             </div>
             <div className="text-center">
               <p className="font-semibold">Absences</p>
-              <p className="font-semibold">0</p>
+              <p className="font-semibold">{absences?.length}</p>
             </div>
           </div>
 
@@ -75,7 +92,7 @@ export default function StudentDashboardHome() {
             </div>
             <div className="text-center">
               <p className="font-semibold">Assignments</p>
-              <p className="font-semibold">0</p>
+              <p className="font-semibold">{assignments?.length}</p>
             </div>
           </div>
         </div>
@@ -166,7 +183,7 @@ export default function StudentDashboardHome() {
             </div> */}
 
             <div className="flex flex-col gap-y-10">
-              {assignments?.map((assignment) => (
+              {classes?.map((myClass) => (
                 <div className="flex justify-between gap-x-5">
                   <div className="flex items-center gap-x-3">
                     <div className="bg-white shadow-xl rounded-lg h-10 p-2">
@@ -178,10 +195,10 @@ export default function StudentDashboardHome() {
 
                     <div className="">
                       <p className="font-bold text-black">
-                        {assignment?.title}
+                        {myClass?.assignment?.title}
                       </p>
                       <small className="text-gray-400">
-                        {assignment?.deadline}
+                        {myClass?.assignment?.deadline}
                       </small>
                     </div>
                   </div>
@@ -189,18 +206,18 @@ export default function StudentDashboardHome() {
                   <div className="w-[45%] flex items-center gap-x-3 text-black">
                     <input
                       type="range"
-                      value={"30"}
+                      value={`${myClass?.assignment?.score}`}
                       min={"0"}
                       max={"100"}
                       className="w-full text-solyntaYellow bg-solyntaYellow"
                     />
-                    <small>{assignment?.score}</small>
+                    <small>{myClass?.assignment?.score}</small>
                   </div>
                 </div>
               ))}
             </div>
 
-            {!assignments && (
+            {assignments == 0 && (
               <div className="flex items-center justify-center">
                 <p className="text-black">You have no assignments for now</p>
               </div>
@@ -369,20 +386,29 @@ export default function StudentDashboardHome() {
 
           <div className="">
             {/* Student Card */}
-            {instructors?.map((instructor) => (
+            {classes?.map((myClass) => (
               <div className="flex items-center justify-between my-7">
-              <div className="flex items-center gap-x-2">
-                <img
-                  src={instructor?.image}
-                  alt={`${instructor?.firstName} ${instructor?.lastName}`}
-                  className="w-16 max-w-[30px] object-contain"
-                />
-                <small className="text-black">{instructor?.firstName} {instructor?.lastName}</small>
+                <div className="flex items-center gap-x-2">
+                  <img
+                    src={myClass?.teacherId?.image ?? avatar}
+                    alt={`${myClass?.teacherId?.firstName} ${myClass?.teacherId?.lastName}`}
+                    className="w-16 max-w-[30px] object-contain"
+                  />
+                  <small className="text-black">
+                    {myClass?.teacherId?.firstName}{" "}
+                    {myClass?.teacherId?.lastName}
+                  </small>
+                </div>
+                <small className="text-black">
+                  {myClass?.teacherId?.subjectSpecialism}
+                </small>
+                <small className="text-black">
+                  {myClass?.teacherId?.score ?? "Not assigned"}
+                </small>
+                <small className="text-green-500">
+                  {myClass?.teacherId?.grade ?? "Not assigned"}
+                </small>
               </div>
-              <small className="text-black">{instructor?.subject}</small>
-              <small className="text-black">{instructor?.score}</small>
-              <small className="text-green-500">{instructor?.grade}</small>
-            </div>
             ))}
             {/* Student Card */}
             {/* <div className="flex items-center justify-between my-7">
@@ -470,7 +496,7 @@ export default function StudentDashboardHome() {
             </div> */}
           </div>
 
-          {!instructors && (
+          {(!instructors || instructors?.length == 0) && (
             <div className="flex items-center justify-center">
               <p className="text-black">You have no instructors for now</p>
             </div>
