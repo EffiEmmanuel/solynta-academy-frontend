@@ -11,12 +11,15 @@ import StudentStepTwoForm from "../../../forms/SignUpForms/Student/StudentStepTw
 import StudentStepThreeForm from "../../../forms/SignUpForms/Student/StudentStepThreeForm";
 import ParentStepTwoForm from "../../../forms/SignUpForms/Parent/ParentStepTwoForm";
 import axios from "axios";
+import Spinner from "react-bootstrap/Spinner";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 function SignUpPage() {
   const navigate = useNavigate();
   const stepsAndPages = [{ 1: {} }];
+
+  const [isLoading, setIsLoading] = useState(false);
 
   const [isStepOne, setIsStepOne] = useState(true);
   const [isStepTwo, setIsStepTwo] = useState(false);
@@ -57,6 +60,7 @@ function SignUpPage() {
     console.log("AALL VALUES", values);
     // TO-DO: Send API request to server
     if (isTeacher) {
+      setIsLoading(true);
       await axios
         .post(`http://24.199.107.14:3001/teacher/register`, {
           ...values,
@@ -67,15 +71,18 @@ function SignUpPage() {
           if (res.data.success) {
             toast("Your account was created successfully!", "success");
             setTimeout(() => {
+              setIsLoading(false);
               navigate("/auth/login");
             }, 1500);
           }
         })
         .catch((err) => {
+          setIsLoading(false);
           toast(err.response?.data?.message, "error");
           console.log(err);
         });
     } else if (isStudent) {
+      setIsLoading(true);
       await axios
         .post(`http://24.199.107.14:3001/student/register`, {
           ...values,
@@ -86,15 +93,18 @@ function SignUpPage() {
           if (res.data.success) {
             toast("Your account was created successfully!", "success");
             setTimeout(() => {
+              setIsLoading(false);
               navigate("/auth/login");
             }, 1500);
           }
         })
         .catch((err) => {
           console.log(err);
+          setIsLoading(false);
           toast(err.response?.data?.message, "error");
         });
     } else {
+      setIsLoading(true);
       await axios
         .post(`http://24.199.107.14:3001/parent/register`, {
           ...values,
@@ -104,12 +114,14 @@ function SignUpPage() {
           if (res.data.success) {
             toast("Your account was created successfully!", "success");
             setTimeout(() => {
+              setIsLoading(false);
               navigate("/auth/login");
             }, 1500);
           }
         })
         .catch((err) => {
           console.log(err);
+          setIsLoading(false);
           toast(err.response?.data?.message, "error");
         });
     }
@@ -436,6 +448,7 @@ function SignUpPage() {
         {(isStepThree || (isStepTwo && isParent)) && (
           <button
             className="h-12 px-7 py-2 w-32 rounded-lg bg-solyntaBlue text-white"
+            disabled={isLoading}
             onClick={() => {
               if (isTeacher) {
                 onSubmit({
@@ -468,7 +481,11 @@ function SignUpPage() {
               }
             }}
           >
-            Confirm
+            {isLoading ? (
+              <Spinner animation="border" size="sm" variant="primary" />
+            ) : (
+              "Confirm"
+            )}
           </button>
         )}
       </div>
