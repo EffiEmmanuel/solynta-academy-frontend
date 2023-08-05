@@ -21,7 +21,7 @@ function LoginForm() {
     // TO-DO: Send API request to server
     if (role === "student") {
       await axios
-        .post("http://localhost:3001/student/login", {
+        .post("http://24.199.107.14:3001/student/login", {
           emailAddress: values.email,
           password: values.password,
         })
@@ -39,7 +39,7 @@ function LoginForm() {
         });
     } else if (role === "teacher") {
       await axios
-        .post("http://localhost:3001/teacher/login", {
+        .post("http://24.199.107.14:3001/teacher/login", {
           emailAddress: values.email,
           password: values.password,
         })
@@ -58,7 +58,7 @@ function LoginForm() {
         });
     } else {
       await axios
-        .post("http://localhost:3001/parent/login", {
+        .post("http://24.199.107.14:3001/parent/login", {
           emailAddress: values.email,
           password: values.password,
         })

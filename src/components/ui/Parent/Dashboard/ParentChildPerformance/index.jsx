@@ -106,7 +106,7 @@ export default function ParentChildPerformance() {
   async function fetchClasses() {
     console.log("USERID:", selectChildren);
     await axios
-      .get("http://localhost:3001/student/get-classes/" + selectChildren)
+      .get("http://24.199.107.14:3001/student/get-classes/" + selectChildren)
       .then((res) => {
         console.log("CLASSES:", res);
         setClasses(res.data.Data);
@@ -117,7 +117,7 @@ export default function ParentChildPerformance() {
   }
   async function fetchAbsences() {
     await axios
-      .get("http://localhost:3001/student/get-absences/" + selectChildren)
+      .get("http://24.199.107.14:3001/student/get-absences/" + selectChildren)
       .then((res) => {
         console.log("ABSENCES:", res);
         setAbsences(res.data.Data);

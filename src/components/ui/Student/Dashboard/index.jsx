@@ -13,7 +13,7 @@ function StudentDashboard(props) {
   const [user, setUser] = useState();
   const [classes, setClasses] = useState();
   const [absences, setAbsences] = useState();
-  const [courses, setCourses] = useState();
+  const [courses, setCourses] = useState([]);
   const [lessons, setLessons] = useState();
 
   //   Current page
@@ -76,7 +76,7 @@ function StudentDashboard(props) {
   async function fetchClasses() {
     console.log("USERID:", user?._id);
     await axios
-      .get("http://localhost:3001/student/get-classes/" + user?._id)
+      .get("http://24.199.107.14:3001/student/get-classes/" + user?._id)
       .then((res) => {
         console.log("CLASSES:", res);
         setClasses(res.data.Data);
@@ -88,7 +88,7 @@ function StudentDashboard(props) {
   async function fetchAbsences() {
     console.log("USERID:", user?._id);
     await axios
-      .get("http://localhost:3001/student/get-absences/" + user?._id)
+      .get("http://24.199.107.14:3001/student/get-absences/" + user?._id)
       .then((res) => {
         console.log("ABSENCES:", res);
         setAbsences(res.data.Data);
@@ -100,7 +100,7 @@ function StudentDashboard(props) {
   async function fetchCourses() {
     console.log("USERID:", user?._id);
     await axios
-      .get("http://localhost:3001/student/get-courses/" + user?._id)
+      .get("http://24.199.107.14:3001/student/get-courses/" + user?._id)
       .then((res) => {
         console.log("COURSES:", res);
         setCourses(res.data.Data);
@@ -112,7 +112,7 @@ function StudentDashboard(props) {
   async function fetchLessons() {
     console.log("USERID:", user?._id);
     await axios
-      .get("http://localhost:3001/student/get-lessons/")
+      .get("http://24.199.107.14:3001/student/get-lessons/")
       .then((res) => {
         console.log("LESSONS:", res);
         setLessons(res.data.Data);

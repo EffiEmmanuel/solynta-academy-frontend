@@ -10,7 +10,7 @@ import { MdSearch } from "react-icons/md";
 import student from "../../../../../assets/images/student.png";
 
 // SOCKET.IO CONFIG
-const socket = io.connect("http://localhost:3001");
+const socket = io.connect("http://24.199.107.14:3001");
 // const socket = io.connect("https://www.corset-backend.vercel.app");
 
 export default function StudentChat(props) {
@@ -107,7 +107,7 @@ export default function StudentChat(props) {
   const [teachers, setTeachers] = useState();
   async function getTeachers() {
     await axios
-      .get(`http://localhost:3001/student/get-teachers`)
+      .get(`http://24.199.107.14:3001/student/get-teachers`)
       .then((res) => {
         console.log("TEACHERS:", res.data);
         // setMessages(res.data.data);

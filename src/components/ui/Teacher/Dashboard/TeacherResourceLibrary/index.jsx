@@ -18,7 +18,9 @@ export default function TeacherResourceLibrary() {
   async function fetchVideos() {
     // API REQUEST TO GET VIDEOS
     await axios
-      .get(`http://localhost:3001/teacher/get-teacher-videos/${teacher?._id}`)
+      .get(
+        `http://24.199.107.14:3001/teacher/get-teacher-videos/${teacher?._id}`
+      )
       .then((res) => {
         console.log("RESPONSE:", res.data);
         setVideos(res.data.Data);
@@ -30,7 +32,9 @@ export default function TeacherResourceLibrary() {
   async function fetchBooks() {
     // API REQUEST TO GET BOOKS
     await axios
-      .get(`http://localhost:3001/teacher/get-teacher-books/${teacher?._id}`)
+      .get(
+        `http://24.199.107.14:3001/teacher/get-teacher-books/${teacher?._id}`
+      )
       .then((res) => {
         console.log("RESPONSE:", res.data);
         setBooks(res.data.Data);

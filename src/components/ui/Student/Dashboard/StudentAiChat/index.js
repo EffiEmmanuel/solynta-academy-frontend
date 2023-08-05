@@ -23,7 +23,9 @@ export default function StudentAiChat(props) {
       return;
     } else {
       await axios
-        .post(`http://localhost:3001/student/ai-chat`, { message: newMessage })
+        .post(`http://24.199.107.14:3001/student/ai-chat`, {
+          message: newMessage,
+        })
         .then((res) => {
           console.log("MESSAGES FROM PROJECT CHAT COMP:", res.data);
           console.log(

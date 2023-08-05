@@ -70,7 +70,7 @@ export default function ParentTeachersNote() {
   const [notes, setNotes] = useState();
   async function fetchNotes() {
     await axios
-      .get(`http://localhost:3001/parent/get-notes/${selectChildren}`)
+      .get(`http://24.199.107.14:3001/parent/get-notes/${selectChildren}`)
       .then((res) => {
         setNotes(res.data.Data);
       })

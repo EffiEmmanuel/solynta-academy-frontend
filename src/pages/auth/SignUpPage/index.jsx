@@ -58,7 +58,7 @@ function SignUpPage() {
     // TO-DO: Send API request to server
     if (isTeacher) {
       await axios
-        .post(`http://localhost:3001/teacher/register`, {
+        .post(`http://24.199.107.14:3001/teacher/register`, {
           ...values,
           confirmPassword: password,
         })
@@ -77,7 +77,7 @@ function SignUpPage() {
         });
     } else if (isStudent) {
       await axios
-        .post(`http://localhost:3001/student/register`, {
+        .post(`http://24.199.107.14:3001/student/register`, {
           ...values,
           confirmPassword: password,
         })
@@ -96,7 +96,7 @@ function SignUpPage() {
         });
     } else {
       await axios
-        .post(`http://localhost:3001/parent/register`, {
+        .post(`http://24.199.107.14:3001/parent/register`, {
           ...values,
           confirmPassword: password,
         })

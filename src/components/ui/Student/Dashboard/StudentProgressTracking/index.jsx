@@ -33,7 +33,7 @@ export default function StudentProgressTracking() {
   const [scores, setScores] = useState();
   async function getScores() {
     await axios
-      .get("http://localhost:3001/student/get-classes")
+      .get("http://24.199.107.14:3001/student/get-classes")
       .then((res) => {
         setScores(res.data.Data);
       })
