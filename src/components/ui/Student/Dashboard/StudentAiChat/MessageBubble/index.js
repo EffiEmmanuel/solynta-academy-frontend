@@ -18,10 +18,29 @@ export default function MessageBubble(props) {
           </div>
         </div>
       ) : (
+<<<<<<< HEAD
         /* AI MESSAGE */
         <div className="w-full flex justify-start gap-x-2">
           <div className="text-sm flex justify-center text-white bg-slate-600 h-10 w-10 my-auto rounded-full">
             <span className="my-auto">{props?.isAi ? <>AI</> : <>AI</>}</span>
+=======
+        /* ENGINEER MESSAGE */
+        <div className="w-full flex justify-start gap-x-2">
+          <div className="text-sm flex justify-center text-white bg-slate-600 h-10 w-10 my-auto rounded-full">
+            <span className="my-auto">
+              {props?.isEngineer ? (
+                <>
+                  {props?.project?.owner?.firstName?.split("")[0]}
+                  {props?.project?.owner?.lastName?.split("")[0]}
+                </>
+              ) : (
+                <>
+                  {props?.project?.engineerAssigned?.firstName?.split("")[0]}
+                  {props?.project?.engineerAssigned?.lastName?.split("")[0]}
+                </>
+              )}
+            </span>
+>>>>>>> bbb01e62796982bfac29effea40f42175f106d8c
           </div>
           <p className="space-y-48 text-sm p-3 shadow-lg text-white rounded-lg my-5 max-w-[43%] bg-[#181818] h-auto text-left">
             {props?.message.message}
