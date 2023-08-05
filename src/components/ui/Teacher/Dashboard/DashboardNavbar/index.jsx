@@ -1,6 +1,6 @@
 import { FaBars, FaTimes } from "react-icons/fa";
 import { useContext, useEffect, useState } from "react";
-import { UserContext } from "..";
+import { TeacherContext } from "..";
 import DashboardNav from "../DashboardNav";
 import solyntaLogo from "../../../../../assets/logos/solynta-logo.png";
 
@@ -8,17 +8,13 @@ export default function DashboardNavbar(props) {
   const [isNavHidden, setIsNavHidden] = useState(true);
 
   // Get user from user context
-  const { user } = useContext(UserContext);
+  const { user } = useContext(TeacherContext);
 
   return (
     <>
       {/* Nabvar */}
       <div className="bg-black lg:hidden w-full flex justify-between items-center px-10 py-7">
-        <img
-          src={solyntaLogo}
-          alt="Solynta Academy"
-          className="max-w-[40px]"
-        />
+        <img src={solyntaLogo} alt="Solynta Academy" className="max-w-[40px]" />
         <div className="lg:hidden">
           {isNavHidden ? (
             <FaBars

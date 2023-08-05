@@ -4,7 +4,7 @@ import { FaPaperPlane, FaPlaneDeparture } from "react-icons/fa";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 // import { io } from "socket.io-client";
-import { UserContext } from "../../Dashboard";
+import { TeacherContext } from "../../Dashboard";
 import Chat from "./Chat";
 import { MdSearch } from "react-icons/md";
 import student from "../../../../../assets/images/student.png";
@@ -14,7 +14,7 @@ import student from "../../../../../assets/images/student.png";
 // const socket = io.connect("https://www.corset-backend.vercel.app");
 
 export default function TeacherChat(props) {
-  const { user } = useContext(UserContext);
+  const { user } = useContext(TeacherContext);
 
   const [messages, setMessages] = useState([]);
   const [newMessage, setNewMessage] = useState("");

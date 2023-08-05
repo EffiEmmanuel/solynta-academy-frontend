@@ -1,5 +1,5 @@
-import { useContext } from "react";
-import { UserContext } from "..";
+import { useContext, useEffect, useState } from "react";
+import { ParentContext } from "..";
 import {
   Chart as ChartJS,
   BarElement,
@@ -24,6 +24,7 @@ import { TbDna2, TbMath } from "react-icons/tb";
 import { PiAtom } from "react-icons/pi";
 import { BsTranslate } from "react-icons/bs";
 import { BiAtom } from "react-icons/bi";
+import axios from "axios";
 
 // Register ChartJS
 ChartJS.register(
@@ -39,7 +40,8 @@ ChartJS.defaults.borderColor = "#E5E7EB";
 ChartJS.defaults.color = "#000";
 
 export default function ParentChildPerformance() {
-  const { user, projects } = useContext(UserContext);
+  const { parent, children } = useContext(ParentContext);
+  const [selectChildren, setSelectChildren] = useState();
 
   // Bar Chart Setup
   const data = {
@@ -98,10 +100,69 @@ export default function ParentChildPerformance() {
     },
   };
 
+  const [classes, setClasses] = useState();
+  const [absences, setAbsences] = useState();
+
+  async function fetchClasses() {
+    console.log("USERID:", selectChildren);
+    await axios
+      .get("http://localhost:3001/student/get-classes/" + selectChildren)
+      .then((res) => {
+        console.log("CLASSES:", res);
+        setClasses(res.data.Data);
+      })
+      .catch((err) => {
+        console.log("ERROR:", err);
+      });
+  }
+  async function fetchAbsences() {
+    await axios
+      .get("http://localhost:3001/student/get-absences/" + selectChildren)
+      .then((res) => {
+        console.log("ABSENCES:", res);
+        setAbsences(res.data.Data);
+      })
+      .catch((err) => {
+        console.log("ERROR:", err);
+      });
+  }
+
+  useEffect(() => {
+    fetchClasses();
+    fetchAbsences();
+  }, [selectChildren]);
+
+  // Assignments
+  const [assignments, setAssignments] = useState([]);
+  useEffect(() => {
+    classes?.forEach((myClass) => {
+      if (myClass?.assignment) {
+        const updatedAssignments = assignments?.push(myClass?.assignment);
+        setAssignments(updatedAssignments);
+      }
+    });
+  }, [classes]);
+
   return (
     <>
       {/* LATEST ACTIVITY */}
       <section className="mt-20 relative">
+        <div className="flex items-center gap-x-5">
+          <p>Select Child:</p>
+          <select
+            value={selectChildren}
+            onChange={(e) => setSelectChildren(e.target.value)}
+            className="px-4 py-2 rounded-lg text-black"
+          >
+            <option value="">--SELECT CHILD--</option>
+            {children?.map((child) => (
+              <option key={child?._id} value={child?._id}>
+                {child?.firstName} {child?.lastName}
+              </option>
+            ))}
+          </select>
+        </div>
+
         <div className="w-full lg:w-[50%] xl:w-[60%] p-10 bg-white shadow-md rounded-xl mt-4 max-h-96 overflow-y-scroll">
           <div className="flex items-center justify-between mb-6">
             <p className="font-bold text-black">Assessment Scores</p>
@@ -118,60 +179,31 @@ export default function ParentChildPerformance() {
 
           <hr />
 
-          <div className="">
-            {/* Assessment Card */}
-            <div className="flex items-start justify-between my-7">
-              <small className="text-black w-1/4">Pre-Assessment</small>
-              <small className="text-black w-1/4">85%</small>
-              <small className="text-black w-1/4">85%</small>
-              <small className="text-black w-1/4">
-                Shows a solid understanding of the pre-assessment topics.
-                Student B has performed exceptionally w...
-              </small>
-            </div>
-            {/* Assessment Card */}
-            <div className="flex items-start justify-between my-7">
-              <small className="text-black w-1/4">Spelling Test</small>
-              <small className="text-black w-1/4">85%</small>
-              <small className="text-black w-1/4">85%</small>
-              <small className="text-black w-1/4">
-                Shows a solid understanding of the pre-assessment topics.
-                Student B has performed exceptionally w...
-              </small>
-            </div>
-            {/* Assessment Card */}
+          {/* Assessment Card */}
+          {classes?.map((myClass) => (
             <div className="flex items-start justify-between my-7">
               <small className="text-black w-1/4">
-                Reading Fluency Assessment
+                {myClass?.assignment?.title}
               </small>
-              <small className="text-black w-1/4">85%</small>
-              <small className="text-black w-1/4">85%</small>
               <small className="text-black w-1/4">
-                Shows a solid understanding of the pre-assessment topics.
-                Student B has performed exceptionally w...
+                {myClass?.assignment?.score}
+              </small>
+              <small className="text-black w-1/4">
+                {myClass?.assignment?.score}
+              </small>
+              <small className="text-green-500 w-1/4">
+                {myClass?.assignment?.feedback}
               </small>
             </div>
-            {/* Assessment Card */}
-            <div className="flex items-start justify-between my-7">
-              <small className="text-black w-1/4">Vocabulary Quiz</small>
-              <small className="text-black w-1/4">85%</small>
-              <small className="text-black w-1/4">85%</small>
-              <small className="text-black w-1/4">
-                Shows a solid understanding of the pre-assessment topics.
-                Student B has performed exceptionally w...
+          ))}
+          {/* {classes?.map((myClass) => ( */}
+          <>
+            {(!classes || classes?.length < 1) && (
+              <small className="text-black text-center">
+                This child does not have any due assignments
               </small>
-            </div>
-            {/* Assessment Card */}
-            <div className="flex items-start justify-between my-7">
-              <small className="text-black w-1/4">Problem-Solving Task</small>
-              <small className="text-black w-1/4">85%</small>
-              <small className="text-black w-1/4">85%</small>
-              <small className="text-black w-1/4">
-                Shows a solid understanding of the pre-assessment topics.
-                Student B has performed exceptionally w...
-              </small>
-            </div>
-          </div>
+            )}
+          </>
         </div>
 
         <h3 className="text-xl text-white font-semibold mt-10 mb-5">
@@ -206,31 +238,27 @@ export default function ParentChildPerformance() {
           <div className="flex flex-col gap-y-8">
             {/* ROW 1 */}
             <div className="flex items-center justify-between flex-wrap gap-y-5">
-              <div className="text-solyntaBlue bg-white h-[100px] max-h-[100px] min-h-[100px] w-[150px] rounded-lg">
-                <div className="flex justify-end p-1 h-[5px]">
-                  <CiMenuKebab size={20} className="rotate-90" />
+              {classes?.map((myClass) => (
+                <div className="text-solyntaBlue bg-white h-[100px] max-h-[100px] min-h-[100px] w-[150px] rounded-lg">
+                  <div className="flex justify-end p-1 h-[5px]">
+                    <CiMenuKebab size={20} className="rotate-90" />
+                  </div>
+                  <div className="flex justify-center items-center gap-x-2 h-[60px]">
+                    <BiAtom size={32} className="" />
+                    <p>{myClass?.className}</p>
+                  </div>
+                  <div className="bg-solyntaYellow h-[35px] rounded-lg flex items-center justify-center">
+                    <p className="text-center font-bold">90%</p>
+                  </div>
                 </div>
-                <div className="flex justify-center items-center gap-x-2 h-[60px]">
-                  <TbDna2 size={32} className="rotate-45" />
-                  <p>Biology</p>
-                </div>
-                <div className="bg-solyntaYellow h-[35px] rounded-lg flex items-center justify-center">
-                  <p className="text-center font-bold">90%</p>
-                </div>
-              </div>
-              <div className="text-solyntaBlue bg-white h-[100px] max-h-[100px] min-h-[100px] w-[150px] rounded-lg">
-                <div className="flex justify-end p-1 h-[5px]">
-                  <CiMenuKebab size={20} className="rotate-90" />
-                </div>
-                <div className="flex justify-center items-center gap-x-2 h-[60px]">
-                  <BiAtom size={32} className="" />
-                  <p>Physics</p>
-                </div>
-                <div className="bg-solyntaYellow h-[35px] rounded-lg flex items-center justify-center">
-                  <p className="text-center font-bold">90%</p>
-                </div>
-              </div>
-              <div className="text-solyntaBlue bg-white h-[100px] max-h-[100px] min-h-[100px] w-[150px] rounded-lg">
+              ))}
+
+              {(!classes || classes?.length == 0) && (
+                <p className="text-white text-center">
+                  No data to show here for now
+                </p>
+              )}
+              {/* <div className="text-solyntaBlue bg-white h-[100px] max-h-[100px] min-h-[100px] w-[150px] rounded-lg">
                 <div className="flex justify-end p-1 h-[5px]">
                   <CiMenuKebab size={20} className="rotate-90" />
                 </div>
@@ -253,11 +281,11 @@ export default function ParentChildPerformance() {
                 <div className="bg-solyntaYellow h-[35px] rounded-lg flex items-center justify-center">
                   <p className="text-center font-bold">90%</p>
                 </div>
-              </div>
+              </div> */}
             </div>
 
             {/* ROW 2 */}
-            <div className="flex items-center justify-between flex-wrap gap-y-5">
+            {/* <div className="flex items-center justify-between flex-wrap gap-y-5">
               <div className="text-solyntaBlue bg-white h-[100px] max-h-[100px] min-h-[100px] w-[150px] rounded-lg">
                 <div className="flex justify-end p-1 h-[5px]">
                   <CiMenuKebab size={20} className="rotate-90" />
@@ -306,7 +334,7 @@ export default function ParentChildPerformance() {
                   <p className="text-center font-bold">90%</p>
                 </div>
               </div>
-            </div>
+            </div> */}
           </div>
         </div>
 
@@ -413,7 +441,49 @@ export default function ParentChildPerformance() {
             </select>
 
             <div className="flex flex-col gap-y-5">
-              <div className="">
+              {classes?.map((myClass) => (
+                <>
+                  {myClass?.assignments?.map((assignment) => {
+                    if (assignment?.score) {
+                      return (
+                        <div className="">
+                          <p className="text-solyntaBlue font-semibold">
+                            {assignment?.title}
+                          </p>
+
+                          <div className="mt-2">
+                            <div className="">
+                              <div className="flex items-start gap-x-3 my-1">
+                                <div className="h-[5px] w-[5px] min-w-[5px] max-w-[5px] min-h-[5px] max-h-[5px] bg-solyntaYellow rounded-full"></div>
+                                <small className="text-black font-semibold -mt-1">
+                                  {assignment?.feedback}
+                                </small>
+                              </div>
+
+                              <div className="flex items-center gap-x-3 ml-4">
+                                <MdCalendarToday
+                                  size={16}
+                                  className="text-gray-500"
+                                />
+                                <small className="text-gray-500">
+                                  {assignment?.deadline}
+                                </small>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      );
+                    }
+                  })}
+                </>
+              ))}
+
+              {(!classes || classes?.length == 0) && (
+                <p className="text-solyntaBlue font-semibold">
+                  This child has not joined any classes yet
+                </p>
+              )}
+              {/* <div className="">
                 <p className="text-solyntaBlue font-semibold">
                   Title Of The Assignment
                 </p>
@@ -484,7 +554,7 @@ export default function ParentChildPerformance() {
                     </div>
                   </div>
                 </div>
-              </div>
+              </div> */}
             </div>
           </div>
         </div>

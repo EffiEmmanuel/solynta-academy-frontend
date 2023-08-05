@@ -1,9 +1,9 @@
 import { useContext } from "react";
-import { UserContext } from "..";
+import { ParentContext } from "..";
 import ParentChat from "../ParentChat";
 
 export default function ParentCommunicationTools() {
-  const { user, projects } = useContext(UserContext);
+  const { user, projects } = useContext(ParentContext);
   return (
     <>
       {/* LATEST ACTIVITY */}

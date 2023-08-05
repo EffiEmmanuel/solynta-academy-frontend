@@ -5,6 +5,7 @@ import { Fade } from "react-reveal";
 
 function TeachersNote(props) {
   const [isFaqOpen, setIsFaqOpen] = useState(false);
+  const note = props?.note;
   return (
     <>
       <Fade up duration={800}>
@@ -16,11 +17,13 @@ function TeachersNote(props) {
           {/* QUESTION */}
           <div className="bg-blupayBlue-300 h-16 flex justify-between align-middle px-10 pt-10">
             <div className="flex items-center gap-x-3">
-              <img src={teacher} className="" />
+              <img src={note?.teacherId?.image ?? teacher} className="" />
 
               <div className="flex flex-col">
-                <h4 className="font-medium">Course name</h4>
-                <small className="text-gray-500">Teacher name</small>
+                <h4 className="font-medium">{note?.course}</h4>
+                <small className="text-gray-500">
+                  {note?.teacherId?.firstName} {note?.teacherId?.lastName}
+                </small>
               </div>
             </div>
             <button>
@@ -49,7 +52,8 @@ function TeachersNote(props) {
                 <h3 className="font-semibold text-xl text-solyntaBlue">
                   Overall Note:
                 </h3>
-                <ul className="list-disc pl-14">
+                <p>{note?.note}</p>
+                {/* <ul className="list-disc pl-14">
                   <li>
                     Lorem ipsum dolor sit amet, consectetur adipiscing elit. In
                     efficitur ante non sapien pulvinar porttitor. Nam in
@@ -68,9 +72,9 @@ function TeachersNote(props) {
                     dolor sit amet, consectetur adipiscing elit.. Lorem ipsum
                     dolor sit amet, consectetur adipiscing elit.{" "}
                   </li>
-                </ul>
+                </ul> */}
               </div>
-              <div className="my-5">
+              {/* <div className="my-5">
                 <h3 className="font-semibold text-xl text-solyntaBlue">
                   Strengths:
                 </h3>
@@ -108,7 +112,7 @@ function TeachersNote(props) {
                     efficitur ante non sapien pulvinar porttitor. Nam in
                   </li>
                 </ul>
-              </div>
+              </div> */}
             </div>
           </div>
         </div>

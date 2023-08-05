@@ -1,5 +1,5 @@
 import { useContext } from "react";
-import { UserContext } from "../../Dashboard";
+import { TeacherContext } from "../../Dashboard";
 import {
   Chart as ChartJS,
   BarElement,
@@ -33,7 +33,7 @@ ChartJS.defaults.borderColor = "#E5E7EB";
 ChartJS.defaults.color = "#000";
 
 export default function TeacherStudentMonitoring() {
-  const { user, projects } = useContext(UserContext);
+  const { teacher, classes } = useContext(TeacherContext);
 
   // Bar Chart Setup
   const data = {
@@ -45,7 +45,7 @@ export default function TeacherStudentMonitoring() {
         backgroundColor: "#FFD60C",
         borderWidth: 0.5,
         barThickness: 10,
-        borderRadius: 200
+        borderRadius: 200,
       },
     ],
   };
@@ -158,31 +158,17 @@ export default function TeacherStudentMonitoring() {
           <div className="w-full bg-white text-black shadow-lg rounded-lg p-5">
             <h3 className="text-xl font-bold my-3">List of Classes</h3>
 
-            <div className="flex flex-col gap-y-5">
-              <div className="flex items-center gap-x-4 justify-between">
+            <div className="flex flex-col gap-y-5 flex-wrap gap-x-3">
+              {classes?.map((teacherClass) => (
                 <div className="h-10 flex justify-center items-center p-2 w-1/2 bg-white rounded-lg shadow-lg">
-                  <small>Class 1</small>
+                  <small>{teacherClass?.className}</small>
                 </div>
-                <div className="h-10 flex justify-center items-center p-2 w-1/2 bg-white rounded-lg shadow-lg">
-                  <small>Class 1</small>
+              ))}
+              {classes?.length == 0 && (
+                <div className="h-10 flex justify-center items-center p-2 w-full">
+                  <small className="text-black">Nothing here for now</small>
                 </div>
-              </div>
-              <div className="flex items-center gap-x-4 justify-between">
-                <div className="h-10 flex justify-center items-center p-2 w-1/2 bg-solyntaBlue text-white rounded-lg shadow-lg">
-                  <small>Class 1</small>
-                </div>
-                <div className="h-10 flex justify-center items-center p-2 w-1/2 bg-white rounded-lg shadow-lg">
-                  <small>Class 1</small>
-                </div>
-              </div>
-              <div className="flex items- gap-x-4 justify-between">
-                <div className="h-10 flex justify-center items-center p-2 w-1/2 bg-white rounded-lg shadow-lg">
-                  <small>Class 1</small>
-                </div>
-                <div className="h-10 flex justify-center items-center p-2 w-1/2 bg-white rounded-lg shadow-lg">
-                  <small>Class 1</small>
-                </div>
-              </div>
+              )}
             </div>
           </div>
 
@@ -194,82 +180,26 @@ export default function TeacherStudentMonitoring() {
 
             <div className="">
               {/* Student Card */}
-              <div className="flex items-center justify-between my-7">
-                <div className="flex items-center gap-x-2">
-                  <img
-                    src={avatar}
-                    alt="Robert Karmes"
-                    className="w-16 max-w-[30px] object-contain"
-                  />
-                  <small className="text-black">Robert Karmes</small>
+              {classes?.map((teacherClass) => (
+                <div className="flex items-center justify-between my-7">
+                  <div className="flex items-center gap-x-2">
+                    {/* <img
+                      src={avatar}
+                      alt="Robert Karmes"
+                      className="w-16 max-w-[30px] object-contain"
+                    /> */}
+                    <small className="text-black">
+                      {teacherClass?.className}
+                    </small>
+                  </div>
                 </div>
-              </div>
-              {/* Student Card */}
-              <div className="flex items-center justify-between my-7">
-                <div className="flex items-center gap-x-2">
-                  <img
-                    src={avatar}
-                    alt="Robert Karmes"
-                    className="w-16 max-w-[30px] object-contain"
-                  />
-                  <small className="text-black">Robert Karmes</small>
+              ))}
+
+              {classes?.length == 0 && (
+                <div className="h-10 flex justify-center items-center p-2 w-full">
+                  <small className="text-black">Nothing here for now</small>
                 </div>
-              </div>
-              {/* Student Card */}
-              <div className="flex items-center justify-between my-7">
-                <div className="flex items-center gap-x-2">
-                  <img
-                    src={avatar}
-                    alt="Robert Karmes"
-                    className="w-16 max-w-[30px] object-contain"
-                  />
-                  <small className="text-black">Robert Karmes</small>
-                </div>
-              </div>
-              {/* Student Card */}
-              <div className="flex items-center justify-between my-7">
-                <div className="flex items-center gap-x-2">
-                  <img
-                    src={avatar}
-                    alt="Robert Karmes"
-                    className="w-16 max-w-[30px] object-contain"
-                  />
-                  <small className="text-black">Robert Karmes</small>
-                </div>
-              </div>
-              {/* Student Card */}
-              <div className="flex items-center justify-between my-7">
-                <div className="flex items-center gap-x-2">
-                  <img
-                    src={avatar}
-                    alt="Robert Karmes"
-                    className="w-16 max-w-[30px] object-contain"
-                  />
-                  <small className="text-black">Robert Karmes</small>
-                </div>
-              </div>
-              {/* Student Card */}
-              <div className="flex items-center justify-between my-7">
-                <div className="flex items-center gap-x-2">
-                  <img
-                    src={avatar}
-                    alt="Robert Karmes"
-                    className="w-16 max-w-[30px] object-contain"
-                  />
-                  <small className="text-black">Robert Karmes</small>
-                </div>
-              </div>
-              {/* Student Card */}
-              <div className="flex items-center justify-between my-7">
-                <div className="flex items-center gap-x-2">
-                  <img
-                    src={avatar}
-                    alt="Robert Karmes"
-                    className="w-16 max-w-[30px] object-contain"
-                  />
-                  <small className="text-black">Robert Karmes</small>
-                </div>
-              </div>
+              )}
             </div>
           </div>
         </div>

@@ -1,5 +1,5 @@
-import { useContext } from "react";
-import { UserContext } from "../../Dashboard";
+import { useContext, useEffect, useState } from "react";
+import { TeacherContext } from "../../Dashboard";
 import {
   Chart as ChartJS,
   BarElement,
@@ -9,7 +9,7 @@ import {
   Legend,
 } from "chart.js";
 import { Bar } from "react-chartjs-2";
-import { PiStudentFill } from 'react-icons/pi'
+import { PiStudentFill } from "react-icons/pi";
 
 // Images
 import avatar from "../../../../../assets/images/Avater.png";
@@ -21,19 +21,23 @@ ChartJS.defaults.borderColor = "#E5E7EB";
 ChartJS.defaults.color = "#000";
 
 export default function TeacherDashboardHome() {
-  const { user, classes } = useContext(UserContext);
+  const { teacher, students, classes } = useContext(TeacherContext);
 
   // Bar Chart Setup
+  async function fetchData() {
+    // Fetch some data here
+  }
+
   const data = {
     labels: ["Jan", "Feb", "Mar", "Apr", "May", "Jun"],
     datasets: [
       {
         label: "",
-        data: [20, 10, 20, 40, 30, 60],
+        data: [20, 10, 20, 40, 30, 60], // Set the data here in this format
         backgroundColor: "#FFD60C",
         borderWidth: 0.5,
         barThickness: 10,
-        borderRadius: 200
+        borderRadius: 200,
       },
     ],
   };
@@ -51,7 +55,7 @@ export default function TeacherDashboardHome() {
             </div>
             <div className="text-center">
               <p className="font-semibold">Students</p>
-              <p className="font-semibold">300</p>
+              <p className="font-semibold">{students?.length}</p>
             </div>
           </div>
           <div className="bg-[#92AFDD] w-[160px] rounded-lg p-5 flex justify-between items-center">
@@ -60,7 +64,7 @@ export default function TeacherDashboardHome() {
             </div>
             <div className="text-center">
               <p className="font-semibold">Classes</p>
-              <p className="font-semibold">15</p>
+              <p className="font-semibold">{classes?.length}</p>
             </div>
           </div>
           <div className="bg-solyntaYellow w-[160px] rounded-lg p-5 flex justify-between items-center">
@@ -69,7 +73,7 @@ export default function TeacherDashboardHome() {
             </div>
             <div className="text-center">
               <p className="font-semibold">Students</p>
-              <p className="font-semibold">300</p>
+              <p className="font-semibold">{students?.length}</p>
             </div>
           </div>
         </div>
@@ -109,103 +113,27 @@ export default function TeacherDashboardHome() {
 
           <div className="">
             {/* Student Card */}
-            <div className="flex items-center justify-between my-7">
-              <div className="flex items-center gap-x-2">
-                <img
-                  src={avatar}
-                  alt="Robert Karmes"
-                  className="w-16 max-w-[30px] object-contain"
-                />
-                <small className="text-black">Robert Karmes</small>
+            {students?.map((student) => (
+              <div className="flex items-center justify-between my-7">
+                <div className="flex items-center gap-x-2">
+                  <img
+                    src={student?.image ?? avatar}
+                    alt={`${student?.firstName} ${student?.lastName}`}
+                    className="w-16 max-w-[30px] object-contain"
+                  />
+                  <small className="text-black">
+                    {student?.firstName} {student?.lastName}
+                  </small>
+                </div>
+                <small className="text-black">Subject</small>
+                <small className="text-black">A</small>
+                <small className="text-green-500">Passed</small>
               </div>
-              <small className="text-black">Subject</small>
-              <small className="text-black">A</small>
-              <small className="text-green-500">Passed</small>
-            </div>
-            {/* Student Card */}
-            <div className="flex items-center justify-between my-7">
-              <div className="flex items-center gap-x-2">
-                <img
-                  src={avatar}
-                  alt="Robert Karmes"
-                  className="w-16 max-w-[30px] object-contain"
-                />
-                <small className="text-black">Robert Karmes</small>
-              </div>
-              <small className="text-black">Subject</small>
-              <small className="text-black">A</small>
-              <small className="text-green-500">Passed</small>
-            </div>
-            {/* Student Card */}
-            <div className="flex items-center justify-between my-7">
-              <div className="flex items-center gap-x-2">
-                <img
-                  src={avatar}
-                  alt="Robert Karmes"
-                  className="w-16 max-w-[30px] object-contain"
-                />
-                <small className="text-black">Robert Karmes</small>
-              </div>
-              <small className="text-black">Subject</small>
-              <small className="text-black">A</small>
-              <small className="text-green-500">Passed</small>
-            </div>
-            {/* Student Card */}
-            <div className="flex items-center justify-between my-7">
-              <div className="flex items-center gap-x-2">
-                <img
-                  src={avatar}
-                  alt="Robert Karmes"
-                  className="w-16 max-w-[30px] object-contain"
-                />
-                <small className="text-black">Robert Karmes</small>
-              </div>
-              <small className="text-black">Subject</small>
-              <small className="text-black">A</small>
-              <small className="text-green-500">Passed</small>
-            </div>
-            {/* Student Card */}
-            <div className="flex items-center justify-between my-7">
-              <div className="flex items-center gap-x-2">
-                <img
-                  src={avatar}
-                  alt="Robert Karmes"
-                  className="w-16 max-w-[30px] object-contain"
-                />
-                <small className="text-black">Robert Karmes</small>
-              </div>
-              <small className="text-black">Subject</small>
-              <small className="text-black">A</small>
-              <small className="text-green-500">Passed</small>
-            </div>
-            {/* Student Card */}
-            <div className="flex items-center justify-between my-7">
-              <div className="flex items-center gap-x-2">
-                <img
-                  src={avatar}
-                  alt="Robert Karmes"
-                  className="w-16 max-w-[30px] object-contain"
-                />
-                <small className="text-black">Robert Karmes</small>
-              </div>
-              <small className="text-black">Subject</small>
-              <small className="text-black">A</small>
-              <small className="text-green-500">Passed</small>
-            </div>
-            {/* Student Card */}
-            <div className="flex items-center justify-between my-7">
-              <div className="flex items-center gap-x-2">
-                <img
-                  src={avatar}
-                  alt="Robert Karmes"
-                  className="w-16 max-w-[30px] object-contain"
-                />
-                <small className="text-black">Robert Karmes</small>
-              </div>
-              <small className="text-black">Subject</small>
-              <small className="text-black">A</small>
-              <small className="text-green-500">Passed</small>
-            </div>
+            ))}
+
+            {(!students || students?.length == 0) && (
+              <p className="text-black">You do not have any students yet</p>
+            )}
           </div>
         </div>
 
@@ -237,7 +165,7 @@ export default function TeacherDashboardHome() {
               </div>
             </div>
           </div>
-          <div className="bg-white text-black shadow-lg rounded-lg p-5">
+          {/* <div className="bg-white text-black shadow-lg rounded-lg p-5">
             <h3 className="text-xl font-bold my-3">Summary</h3>
 
             <div className="flex flex-col gap-y-5">
@@ -316,7 +244,7 @@ export default function TeacherDashboardHome() {
                 </div>
               </div>
             </div>
-          </div>
+          </div> */}
         </div>
       </section>
     </>

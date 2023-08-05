@@ -1,14 +1,14 @@
 import { useContext } from "react";
 import { FaRegBell } from "react-icons/fa";
-import { UserContext } from "../../Dashboard";
+import { TeacherContext } from "../../Dashboard";
 
 export default function DahboardTopBar(props) {
-  const { user } = useContext(UserContext);
+  const { teacher } = useContext(TeacherContext);
   return (
     <div className="pb-3 flex justify-between">
       <div>
         <h1 className="text-2xl font-bold max-w-sm">
-          Hello, {user?.lastName} {user?.firstName}!
+          Hello, {teacher?.lastName} {teacher?.firstName}!
         </h1>
         <p className="text-sm mt-2">
           Lorem ipsum dolor sit amet, consectetur adipiscing elit.

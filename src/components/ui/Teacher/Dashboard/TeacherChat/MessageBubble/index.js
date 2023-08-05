@@ -1,4 +1,4 @@
-import { UserContext } from "../../../Dashboard";
+import { TeacherContext } from "../../../Dashboard";
 import { useContext } from "react";
 
 export default function MessageBubble(props) {

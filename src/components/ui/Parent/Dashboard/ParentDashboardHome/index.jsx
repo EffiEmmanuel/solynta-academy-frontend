@@ -1,5 +1,5 @@
-import { useContext } from "react";
-import { UserContext } from "../../Dashboard";
+import { useContext, useEffect, useState } from "react";
+import { ParentContext } from "../../Dashboard";
 import {
   Chart as ChartJS,
   BarElement,
@@ -20,6 +20,7 @@ import { AiOutlineLeft, AiOutlineRight } from "react-icons/ai";
 import { CircularProgressbar, buildStyles } from "react-circular-progressbar";
 import { Link } from "react-router-dom";
 import { GoLinkExternal } from "react-icons/go";
+import axios from "axios";
 
 // Register ChartJS
 ChartJS.register(BarElement, CategoryScale, LinearScale, Tooltip, Legend);
@@ -27,29 +28,94 @@ ChartJS.defaults.borderColor = "#E5E7EB";
 ChartJS.defaults.color = "#000";
 
 export default function ParentDashboardHome() {
-  const { user, projects } = useContext(UserContext);
+  const { parent, children } = useContext(ParentContext);
 
   // Bar Chart Setup
+  async function fetchData() {
+    // Fetch some data here
+  }
   const data = {
     labels: ["Jan", "Feb", "Mar", "Apr", "May", "Jun"],
     datasets: [
       {
         label: "",
-        data: [20, 10, 20, 40, 30, 60],
+        data: [20, 10, 20, 40, 30, 60], // Insert data here for dynamism and change with useEffect for each "Child" selected
         backgroundColor: "#FFD60C",
         borderWidth: 0.5,
         barThickness: 10,
-        borderRadius: 200
+        borderRadius: 200,
       },
     ],
   };
 
   const options = {};
 
+  //   Children
+  //   const [selectChildren, setSelectChildren] = useState(children[0]?._id);
+  const [selectChildren, setSelectChildren] = useState();
+  const [classes, setClasses] = useState();
+  const [absences, setAbsences] = useState();
+
+  async function fetchClasses() {
+    console.log("USERID:", selectChildren);
+    await axios
+      .get("http://localhost:3001/student/get-classes/" + selectChildren)
+      .then((res) => {
+        console.log("CLASSES:", res);
+        setClasses(res.data.Data);
+      })
+      .catch((err) => {
+        console.log("ERROR:", err);
+      });
+  }
+  async function fetchAbsences() {
+    await axios
+      .get("http://localhost:3001/student/get-absences/" + selectChildren)
+      .then((res) => {
+        console.log("ABSENCES:", res);
+        setAbsences(res.data.Data);
+      })
+      .catch((err) => {
+        console.log("ERROR:", err);
+      });
+  }
+
+  useEffect(() => {
+    fetchClasses();
+    fetchAbsences();
+  }, [selectChildren]);
+
+  // Assignments
+  const [assignments, setAssignments] = useState([]);
+  useEffect(() => {
+    classes?.forEach((myClass) => {
+      if (myClass?.assignment) {
+        const updatedAssignments = assignments?.push(myClass?.assignment);
+        setAssignments(updatedAssignments);
+      }
+    });
+  }, [classes]);
+
   return (
     <>
       {/* LATEST ACTIVITY */}
       <section className="mt-20 relative">
+        <div className="flex items-center gap-x-5">
+          <p>Select Child:</p>
+          <select
+            value={selectChildren}
+            onChange={(e) => setSelectChildren(e.target.value)}
+            className="px-4 py-2 rounded-lg text-black"
+          >
+            <option value="">--SELECT CHILD--</option>
+            {children?.map((child) => (
+              <option key={child?._id} value={child?._id}>
+                {child?.firstName} {child?.lastName}
+              </option>
+            ))}
+          </select>
+        </div>
+
         <div className="flex flex-wrap gap-y-10 gap-x-5 justify-center items-center lg:justify-between w-full lg:w-[50%] xl:w-[60%] my-10">
           <div className="bg-solyntaBlue  w-[160px] rounded-lg p-5 flex justify-between items-center">
             <div className="bg-white p-3 w-[40px] h-[40px] rounded-lg flex justify-center items-center">
@@ -66,7 +132,7 @@ export default function ParentDashboardHome() {
             </div>
             <div className="text-center">
               <p className="font-semibold">Absences</p>
-              <p className="font-semibold">10</p>
+              <p className="font-semibold">{absences?.length}</p>
             </div>
           </div>
 
@@ -76,7 +142,7 @@ export default function ParentDashboardHome() {
             </div>
             <div className="text-center">
               <p className="font-semibold">Subjects</p>
-              <p className="font-semibold">9</p>
+              <p className="font-semibold">{classes?.length}</p>
             </div>
           </div>
         </div>
@@ -89,68 +155,44 @@ export default function ParentDashboardHome() {
                 <small>View all</small>
               </div>
               <div className="flex flex-col gap-y-10">
-                <div className="flex justify-between gap-x-5">
-                  <div className="flex items-center gap-x-3">
-                    <div className="bg-white shadow-xl rounded-lg h-10 p-2">
-                      <TbMath size={24} className="text-solyntaBlue" />
+                {classes?.map((myClass) => (
+                  <div className="flex justify-between gap-x-5">
+                    <div className="flex items-center gap-x-3">
+                      <div className="bg-white shadow-xl rounded-lg h-10 p-2">
+                        <TbDna2
+                          size={24}
+                          className="text-solyntaBlue rotate-45"
+                        />
+                      </div>
+
+                      <div className="">
+                        <p className="font-bold text-black">
+                          {myClass?.assignment?.title}
+                        </p>
+                        <small className="text-gray-400">
+                          {myClass?.assignment?.deadline}
+                        </small>
+                      </div>
                     </div>
 
-                    <div className="">
-                      <p className="font-bold text-black">Math</p>
-                      <small className="text-gray-400">
-                        Deadline 12 June 2023 (11:59 pm)
-                      </small>
-                    </div>
-                  </div>
-
-                  <div className="flex items-center gap-x-3 text-black">
-                    <Link to="">
-                      <GoLinkExternal size={28} className="text-gray-500" />
-                    </Link>
-                  </div>
-                </div>
-                <div className="flex justify-between gap-x-5">
-                  <div className="flex items-center gap-x-3">
-                    <div className="bg-white shadow-xl rounded-lg h-10 p-2">
-                      <TbDna2
-                        size={24}
-                        className="text-solyntaBlue rotate-45"
+                    <div className="w-[45%] flex items-center gap-x-3 text-black">
+                      <input
+                        type="range"
+                        value={`${myClass?.assignment?.score}`}
+                        min={"0"}
+                        max={"100"}
+                        className="w-full text-solyntaYellow bg-solyntaYellow"
                       />
+                      <small>{myClass?.assignment?.score}</small>
                     </div>
+                  </div>
+                ))}
 
-                    <div className="">
-                      <p className="font-bold text-black">Biology</p>
-                      <small className="text-gray-400">
-                        Deadline 12 June 2023 (11:59 pm)
-                      </small>
-                    </div>
-                  </div>
-                  <div className="flex items-center gap-x-3 text-black">
-                    <Link to="">
-                      <GoLinkExternal size={28} className="text-gray-500" />
-                    </Link>
-                  </div>
-                </div>
-                <div className="flex justify-between gap-x-5">
-                  <div className="flex items-center gap-x-3">
-                    <div className="bg-white shadow-xl rounded-lg h-10 p-2">
-                      <TbAtom size={24} className="text-solyntaBlue" />
-                    </div>
-
-                    <div className="">
-                      <p className="font-bold text-black">Physics</p>
-                      <small className="text-gray-400">
-                        Deadline 12 June 2023 (11:59 pm)
-                      </small>
-                    </div>
-                  </div>
-
-                  <div className="flex items-center gap-x-3 text-black">
-                    <Link to="">
-                      <GoLinkExternal size={28} className="text-gray-500" />
-                    </Link>
-                  </div>
-                </div>
+                {(classes?.length == 0 || assignments?.length == 0) && (
+                  <p className="text-black text-center">
+                    No Assignments for this child
+                  </p>
+                )}
               </div>
             </div>
           </div>

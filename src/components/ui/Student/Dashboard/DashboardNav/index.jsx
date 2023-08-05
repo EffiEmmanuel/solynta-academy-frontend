@@ -111,6 +111,7 @@ export default function DashboardNav({ isNavHidden, user, page }) {
               <span
                 onClick={() => {
                   localStorage.removeItem("token");
+                  localStorage.removeItem("student");
                   router("/auth/login");
                 }}
                 className="flex align-middle gap-2 mt-4"

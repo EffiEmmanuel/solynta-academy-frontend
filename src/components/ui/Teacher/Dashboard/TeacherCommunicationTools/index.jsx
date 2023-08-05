@@ -1,9 +1,9 @@
 import { useContext } from "react";
-import { UserContext } from "../../Dashboard";
+import { TeacherContext } from "../../Dashboard";
 import TeacherChat from "../TeacherChat";
 
 export default function TeacherCommunicationTools() {
-  const { user, projects } = useContext(UserContext);
+  const { user, projects } = useContext(TeacherContext);
   return (
     <>
       {/* LATEST ACTIVITY */}

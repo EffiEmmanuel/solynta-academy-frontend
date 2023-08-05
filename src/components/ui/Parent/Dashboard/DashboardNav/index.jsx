@@ -40,7 +40,10 @@ export default function DashboardNav({ isNavHidden, user, page }) {
                 page == "childs-performance" && "bg-[#113775] text-white"
               }`}
             >
-              <Link to="/parent/dashboard/childs-performance" className="flex items-center gap-2">
+              <Link
+                to="/parent/dashboard/childs-performance"
+                className="flex items-center gap-2"
+              >
                 <GiGraduateCap size={16} className="" />
                 <span className=" text-sm">Child's Performance</span>
               </Link>
@@ -50,7 +53,10 @@ export default function DashboardNav({ isNavHidden, user, page }) {
                 page == "teachers-notes" && "bg-[#113775] text-white"
               }`}
             >
-              <Link to="/parent/dashboard/teachers-notes" className="flex items-center gap-2">
+              <Link
+                to="/parent/dashboard/teachers-notes"
+                className="flex items-center gap-2"
+              >
                 <MdNote size={16} className="" />
                 <span className=" text-sm">Teacher's Notes</span>
               </Link>
@@ -60,7 +66,10 @@ export default function DashboardNav({ isNavHidden, user, page }) {
                 page == "communication-tools" && "bg-[#113775] text-white"
               }`}
             >
-              <Link to="/parent/dashboard/communication-tools" className="flex items-center gap-2">
+              <Link
+                to="/parent/dashboard/communication-tools"
+                className="flex items-center gap-2"
+              >
                 <MdChat size={16} className="" />
                 <span className=" text-sm">Communication Tools</span>
               </Link>
@@ -88,6 +97,7 @@ export default function DashboardNav({ isNavHidden, user, page }) {
               <span
                 onClick={() => {
                   localStorage.removeItem("token");
+                  localStorage.removeItem("parent");
                   router("/auth/login");
                 }}
                 className="flex align-middle gap-2 mt-4"

@@ -1,28 +1,49 @@
 // Images
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { MdBook, MdSearch } from "react-icons/md";
 import { GiSettingsKnobs } from "react-icons/gi";
 import { AiOutlineLeft, AiOutlineRight } from "react-icons/ai";
+import { TeacherContext } from "..";
 
 // Images
-import book from "../../../../../assets/images/book.png";
-import video from "../../../../../assets/images/video.png";
+import bookImage from "../../../../../assets/images/book.png";
+import videoImage from "../../../../../assets/images/video.png";
+import axios from "axios";
 
 export default function TeacherResourceLibrary() {
+  const { teacher } = useContext(TeacherContext);
   const [videos, setVideos] = useState();
   const [books, setBooks] = useState();
+
   async function fetchVideos() {
     // API REQUEST TO GET VIDEOS
-    // SET VIDEOS STATE
+    await axios
+      .get(`http://localhost:3001/teacher/get-teacher-videos/${teacher?._id}`)
+      .then((res) => {
+        console.log("RESPONSE:", res.data);
+        setVideos(res.data.Data);
+      })
+      .catch((err) => {
+        console.log("ERROR:", err);
+      });
   }
   async function fetchBooks() {
     // API REQUEST TO GET BOOKS
+    await axios
+      .get(`http://localhost:3001/teacher/get-teacher-books/${teacher?._id}`)
+      .then((res) => {
+        console.log("RESPONSE:", res.data);
+        setBooks(res.data.Data);
+      })
+      .catch((err) => {
+        console.log("ERROR:", err);
+      });
     // SET BOOKS STATE
   }
   useEffect(() => {
     fetchVideos();
     fetchBooks();
-  }, []);
+  }, [teacher]);
 
   return (
     <>
@@ -57,132 +78,28 @@ export default function TeacherResourceLibrary() {
                 <AiOutlineLeft size={32} color="#000" className="" />
               </div>
               <div className="flex gap-x-5 items-center overflow-x-scroll max-w-full overflow-y-hidden">
-                <div className="h-[200px] w-[120px] min-w-[120px]">
-                  <img
-                    src={book}
-                    alt=""
-                    className="h-[150px] max-h-[150px] min-h-[150px] w-[120px] object-cover"
-                  />
+                {books?.map((book) => (
+                  <div className="h-[200px] w-[120px] min-w-[120px]">
+                    <img
+                      src={book?.image ?? bookImage}
+                      alt=""
+                      className="h-[150px] max-h-[150px] min-h-[150px] w-[120px] object-cover"
+                    />
 
-                  <div className="">
-                    <p className="font-semibold text-sm mt-2 text-black">
-                      Essential Grammar in use
-                    </p>
-                    <small className="text-gray-400">Raymond Murphy</small>
+                    <div className="">
+                      <p className="font-semibold text-sm mt-2 text-black">
+                        {book?.title}
+                      </p>
+                      <small className="text-gray-400">{book?.author}</small>
+                    </div>
                   </div>
-                </div>
-                <div className="h-[200px] w-[120px] min-w-[120px]">
-                  <img
-                    src={book}
-                    alt=""
-                    className="h-[150px] max-h-[150px] min-h-[150px] w-[120px] object-cover"
-                  />
+                ))}
 
-                  <div className="">
-                    <p className="font-semibold text-sm mt-2 text-black">
-                      Essential Grammar in use
-                    </p>
-                    <small className="text-gray-400">Raymond Murphy</small>
-                  </div>
-                </div>
-                <div className="h-[200px] w-[120px] min-w-[120px]">
-                  <img
-                    src={book}
-                    alt=""
-                    className="h-[150px] max-h-[150px] min-h-[150px] w-[120px] object-cover"
-                  />
-
-                  <div className="">
-                    <p className="font-semibold text-sm mt-2 text-black">
-                      Essential Grammar in use
-                    </p>
-                    <small className="text-gray-400">Raymond Murphy</small>
-                  </div>
-                </div>
-                <div className="h-[200px] w-[120px] min-w-[120px]">
-                  <img
-                    src={book}
-                    alt=""
-                    className="h-[150px] max-h-[150px] min-h-[150px] w-[120px] object-cover"
-                  />
-
-                  <div className="">
-                    <p className="font-semibold text-sm mt-2 text-black">
-                      Essential Grammar in use
-                    </p>
-                    <small className="text-gray-400">Raymond Murphy</small>
-                  </div>
-                </div>
-                <div className="h-[200px] w-[120px] min-w-[120px]">
-                  <img
-                    src={book}
-                    alt=""
-                    className="h-[150px] max-h-[150px] min-h-[150px] w-[120px] object-cover"
-                  />
-
-                  <div className="">
-                    <p className="font-semibold text-sm mt-2 text-black">
-                      Essential Grammar in use
-                    </p>
-                    <small className="text-gray-400">Raymond Murphy</small>
-                  </div>
-                </div>
-                <div className="h-[200px] w-[120px] min-w-[120px]">
-                  <img
-                    src={book}
-                    alt=""
-                    className="h-[150px] max-h-[150px] min-h-[150px] w-[120px] object-cover"
-                  />
-
-                  <div className="">
-                    <p className="font-semibold text-sm mt-2 text-black">
-                      Essential Grammar in use
-                    </p>
-                    <small className="text-gray-400">Raymond Murphy</small>
-                  </div>
-                </div>
-                <div className="h-[200px] w-[120px] min-w-[120px]">
-                  <img
-                    src={book}
-                    alt=""
-                    className="h-[150px] max-h-[150px] min-h-[150px] w-[120px] object-cover"
-                  />
-
-                  <div className="">
-                    <p className="font-semibold text-sm mt-2 text-black">
-                      Essential Grammar in use
-                    </p>
-                    <small className="text-gray-400">Raymond Murphy</small>
-                  </div>
-                </div>
-                <div className="h-[200px] w-[120px] min-w-[120px]">
-                  <img
-                    src={book}
-                    alt=""
-                    className="h-[150px] max-h-[150px] min-h-[150px] w-[120px] object-cover"
-                  />
-
-                  <div className="">
-                    <p className="font-semibold text-sm mt-2 text-black">
-                      Essential Grammar in use
-                    </p>
-                    <small className="text-gray-400">Raymond Murphy</small>
-                  </div>
-                </div>
-                <div className="h-[200px] w-[120px] min-w-[120px]">
-                  <img
-                    src={book}
-                    alt=""
-                    className="h-[150px] max-h-[150px] min-h-[150px] w-[120px] object-cover"
-                  />
-
-                  <div className="">
-                    <p className="font-semibold text-sm mt-2 text-black">
-                      Essential Grammar in use
-                    </p>
-                    <small className="text-gray-400">Raymond Murphy</small>
-                  </div>
-                </div>
+                {books?.length == 0 && (
+                  <p className="text-black my-5">
+                    There are no books here for now
+                  </p>
+                )}
               </div>
               <div className="">
                 <AiOutlineRight size={32} color="#000" className="" />
@@ -200,123 +117,31 @@ export default function TeacherResourceLibrary() {
                 <AiOutlineLeft size={32} color="#000" className="" />
               </div>
               <div className="flex gap-x-5 items-center overflow-x-scroll max-w-full overflow-y-hidden">
-                <div className="h-[120px] w-[200px] min-w-[200px]">
-                  <img
-                    src={video}
-                    alt=""
-                    className="h-[100px] max-h-[100px] min-h-[80px] w-[200px] object-cover rounded-lg"
-                  />
+                {videos?.map((video) => (
+                  <a
+                    href={video?.link}
+                    target="_blank"
+                    className="h-[120px] w-[200px] min-w-[200px]"
+                  >
+                    <img
+                      src={video?.image ?? videoImage}
+                      alt=""
+                      className="h-[100px] max-h-[100px] min-h-[80px] w-[200px] object-cover rounded-lg"
+                    />
 
-                  <div className="">
-                    <p className="font-semibold text-sm mt-2 text-black">
-                      Quantum Physics
-                    </p>
-                  </div>
-                </div>
-                <div className="h-[120px] w-[200px] min-w-[200px]">
-                  <img
-                    src={video}
-                    alt=""
-                    className="h-[100px] max-h-[100px] min-h-[80px] w-[200px] object-cover rounded-lg"
-                  />
+                    <div className="">
+                      <p className="font-semibold text-sm mt-2 text-black">
+                        {video?.title}
+                      </p>
+                    </div>
+                  </a>
+                ))}
 
-                  <div className="">
-                    <p className="font-semibold text-sm mt-2 text-black">
-                      Quantum Physics
-                    </p>
-                  </div>
-                </div>
-                <div className="h-[120px] w-[200px] min-w-[200px]">
-                  <img
-                    src={video}
-                    alt=""
-                    className="h-[100px] max-h-[100px] min-h-[80px] w-[200px] object-cover rounded-lg"
-                  />
-
-                  <div className="">
-                    <p className="font-semibold text-sm mt-2 text-black">
-                      Quantum Physics
-                    </p>
-                  </div>
-                </div>
-                <div className="h-[120px] w-[200px] min-w-[200px]">
-                  <img
-                    src={video}
-                    alt=""
-                    className="h-[100px] max-h-[100px] min-h-[80px] w-[200px] object-cover rounded-lg"
-                  />
-
-                  <div className="">
-                    <p className="font-semibold text-sm mt-2 text-black">
-                      Quantum Physics
-                    </p>
-                  </div>
-                </div>
-                <div className="h-[120px] w-[200px] min-w-[200px]">
-                  <img
-                    src={video}
-                    alt=""
-                    className="h-[100px] max-h-[100px] min-h-[80px] w-[200px] object-cover rounded-lg"
-                  />
-
-                  <div className="">
-                    <p className="font-semibold text-sm mt-2 text-black">
-                      Quantum Physics
-                    </p>
-                  </div>
-                </div>
-                <div className="h-[120px] w-[200px] min-w-[200px]">
-                  <img
-                    src={video}
-                    alt=""
-                    className="h-[100px] max-h-[100px] min-h-[80px] w-[200px] object-cover rounded-lg"
-                  />
-
-                  <div className="">
-                    <p className="font-semibold text-sm mt-2 text-black">
-                      Quantum Physics
-                    </p>
-                  </div>
-                </div>
-                <div className="h-[120px] w-[200px] min-w-[200px]">
-                  <img
-                    src={video}
-                    alt=""
-                    className="h-[100px] max-h-[100px] min-h-[80px] w-[200px] object-cover rounded-lg"
-                  />
-
-                  <div className="">
-                    <p className="font-semibold text-sm mt-2 text-black">
-                      Quantum Physics
-                    </p>
-                  </div>
-                </div>
-                <div className="h-[120px] w-[200px] min-w-[200px]">
-                  <img
-                    src={video}
-                    alt=""
-                    className="h-[100px] max-h-[100px] min-h-[80px] w-[200px] object-cover rounded-lg"
-                  />
-
-                  <div className="">
-                    <p className="font-semibold text-sm mt-2 text-black">
-                      Quantum Physics
-                    </p>
-                  </div>
-                </div>
-                <div className="h-[120px] w-[200px] min-w-[200px]">
-                  <img
-                    src={video}
-                    alt=""
-                    className="h-[100px] max-h-[100px] min-h-[80px] w-[200px] object-cover rounded-lg"
-                  />
-
-                  <div className="">
-                    <p className="font-semibold text-sm mt-2 text-black">
-                      Quantum Physics
-                    </p>
-                  </div>
-                </div>
+                {videos?.length == 0 && (
+                  <p className="text-black my-5">
+                    There are no videos here for now
+                  </p>
+                )}
               </div>
               <div className="">
                 <AiOutlineRight size={32} color="#000" className="" />

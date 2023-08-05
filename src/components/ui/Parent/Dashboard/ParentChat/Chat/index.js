@@ -1,4 +1,4 @@
-import { UserContext } from "../../../Dashboard";
+import { ParentContext } from "../../../Dashboard";
 import { useContext, useEffect, useRef } from "react";
 import MessageBubble from "../MessageBubble";
 
@@ -8,7 +8,7 @@ export default function Chat(props) {
   useEffect(() => {
     scrollRef?.current?.scrollIntoView({ behavior: "smooth" });
   });
-  //   const { user } = useContext(UserContext);
+  //   const { user } = useContext(ParentContext);
   console.log("ALL MESSAGES FROM CHAT COMP:", props?.messages);
   return (
     <div className="mt-10">

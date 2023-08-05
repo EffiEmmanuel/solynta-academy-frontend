@@ -7,10 +7,10 @@ import DashboardNavbar from "./DashboardNavbar";
 import { useNavigate } from "react-router-dom";
 
 // Creating a user context to manage state
-export const UserContext = createContext();
+export const TeacherContext = createContext();
 
 function Dashboard(props) {
-  const [user, setUser] = useState();
+  const [teacher, setTeacher] = useState();
   const [projects, setProjects] = useState();
 
   //   Current page
@@ -29,50 +29,50 @@ function Dashboard(props) {
     async function validateSession() {
       const token = localStorage.getItem("token");
       const user = JSON.parse(localStorage.getItem("teacher"));
-      if (!token) {
+      if (!user) {
         Router("/login");
         //   setIsLoading(false);
         return toast.error("You must be logged in.");
       }
 
       if (user) {
-        setUser(user);
+        setTeacher(user);
       }
-
-      // await axios
-      //   .post(`${process.env.NEXT_PUBLIC_BASE_URL_API}/users/verifyToken`, {
-      //     token,
-      //   })
-      //   .then((res) => {
-      //     console.log("RESPONSE:", res.data);
-      //     setIsUserLoggedIn(true);
-      //     setIsLoading(false);
-      //     return axios
-      //       .get(
-      //         `${process.env.NEXT_PUBLIC_BASE_URL_API}/users/${res.data.data._id}`
-      //       )
-      //       .then((res) => {
-      //         console.log("SECOND RES:", res.data);
-      //         setUser(res.data.data);
-      //         setProjects(res.data.data.projects);
-      //       })
-      //       .catch((err) => {});
-      //   })
-      //   .catch((err) => {
-      //     //   toast.error(err.response.data.message);
-      //     Router("/login");
-      //     toast.error(
-      //       "Session expired. Please log in to continue to your dashboard."
-      //     );
-      //     setIsLoading(false);
-      //   });
     }
     validateSession();
   }, []);
 
+  const [students, setStudents] = useState([]);
+  const [classes, setClasses] = useState([]);
+  const [books, setBooks] = useState([]);
+  //   const [classes, setClasses] = useState([]);
+
+  useEffect(() => {
+    async function getStats() {
+      let students = [];
+      teacher?.classes?.forEach((teacherClass) => {
+        if (teacherClass?.student) {
+          teacherClass?.student?.forEach((teacherStudent) => {
+            students?.push(teacherStudent);
+          });
+        }
+      });
+
+      let classes = [];
+      teacher?.classes?.forEach((teacherClass) => {
+        classes?.push(teacherClass);
+      });
+
+      setStudents(students);
+      setClasses(classes);
+    }
+
+    getStats();
+  }, [teacher]);
+
   return (
-    <UserContext.Provider
-      value={{ user, projects, setProjects, currentPage, setTheCurrentPage }}
+    <TeacherContext.Provider
+      value={{ teacher, students, classes, currentPage, setTheCurrentPage }}
     >
       <ToastContainer />
       <DashboardNavbar page={props?.page} />
@@ -81,7 +81,7 @@ function Dashboard(props) {
         <DahboardTopBar />
         {props.children}
       </div>
-    </UserContext.Provider>
+    </TeacherContext.Provider>
   );
 }
 

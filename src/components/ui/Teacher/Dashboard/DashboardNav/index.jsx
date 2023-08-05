@@ -40,7 +40,10 @@ export default function DashboardNav({ isNavHidden, user, page }) {
                 page == "student-monitoring" && "bg-solyntaBlue text-white"
               }`}
             >
-              <Link to="/teacher/dashboard/student-monitoring" className="flex items-center gap-2">
+              <Link
+                to="/teacher/dashboard/student-monitoring"
+                className="flex items-center gap-2"
+              >
                 <GiGraduateCap size={16} className="" />
                 <span className=" text-sm">Student Monitoring</span>
               </Link>
@@ -50,7 +53,10 @@ export default function DashboardNav({ isNavHidden, user, page }) {
                 page == "communication-tools" && "bg-solyntaBlue text-white"
               }`}
             >
-              <Link to="/teacher/dashboard/communication-tools" className="flex items-center gap-2">
+              <Link
+                to="/teacher/dashboard/communication-tools"
+                className="flex items-center gap-2"
+              >
                 <MdChat size={16} className="" />
                 <span className=" text-sm">Communication Tools</span>
               </Link>
@@ -60,7 +66,10 @@ export default function DashboardNav({ isNavHidden, user, page }) {
                 page == "resource-library" && "bg-solyntaBlue text-white"
               }`}
             >
-              <Link to="/teacher/dashboard/resource-library" className="flex items-center gap-2">
+              <Link
+                to="/teacher/dashboard/resource-library"
+                className="flex items-center gap-2"
+              >
                 <BiLibrary size={16} className="" />
                 <span className=" text-sm">Resource Library</span>
               </Link>
@@ -88,6 +97,7 @@ export default function DashboardNav({ isNavHidden, user, page }) {
               <span
                 onClick={() => {
                   localStorage.removeItem("token");
+                  localStorage.removeItem("teacher");
                   router("/auth/login");
                 }}
                 className="flex align-middle gap-2 mt-4"
